@@ -42,6 +42,43 @@ export interface Review {
   createdAt: Date;
 }
 
+export interface Restaurant {
+  id: string;
+  name: string;
+  image: string;
+  rating: number;
+  deliveryTime: string;
+  deliveryFee: string;
+  minimumOrder: string;
+  address: string;
+  distance: string;
+  isOpen: boolean;
+  cuisine: string;
+}
+
+export interface Table {
+  id: string;
+  number: number;
+  seats: number;
+  isAvailable: boolean;
+  type: 'standard' | 'window' | 'private' | 'outdoor';
+  location: string;
+}
+
+export interface Reservation {
+  id: string;
+  customerName: string;
+  customerPhone: string;
+  customerEmail: string;
+  date: string;
+  time: string;
+  guests: number;
+  tableId: string;
+  specialRequests?: string;
+  status: 'confirmed' | 'pending' | 'cancelled';
+  createdAt: Date;
+}
+
 // Mock menu items
 export const mockMenuItems: MenuItem[] = [
   {
@@ -110,6 +147,160 @@ export const mockMenuItems: MenuItem[] = [
     isRecommended: false,
     isDeal: true,
   },
+];
+
+// Mock restaurants
+export const mockRestaurants: Restaurant[] = [
+  {
+    id: nanoid(),
+    name: "Giuseppe's Italian Kitchen",
+    image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300",
+    rating: 4.8,
+    deliveryTime: "25-35 mins",
+    deliveryFee: "50.00",
+    minimumOrder: "200.00",
+    address: "123 Main Street, Downtown, City",
+    distance: "1.2 km",
+    isOpen: true,
+    cuisine: "Italian"
+  },
+  {
+    id: nanoid(),
+    name: "Spice Garden Pakistani",
+    image: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300",
+    rating: 4.6,
+    deliveryTime: "30-40 mins",
+    deliveryFee: "60.00",
+    minimumOrder: "300.00",
+    address: "456 Food Street, Central District",
+    distance: "2.1 km",
+    isOpen: true,
+    cuisine: "Pakistani"
+  },
+  {
+    id: nanoid(),
+    name: "Burger Palace",
+    image: "https://images.unsplash.com/photo-1571091718767-18b5b1457add?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300",
+    rating: 4.4,
+    deliveryTime: "20-30 mins",
+    deliveryFee: "40.00",
+    minimumOrder: "150.00",
+    address: "789 Fast Food Lane, Mall Area",
+    distance: "0.8 km",
+    isOpen: true,
+    cuisine: "American"
+  },
+  {
+    id: nanoid(),
+    name: "Golden Dragon Chinese",
+    image: "https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300",
+    rating: 4.5,
+    deliveryTime: "35-45 mins",
+    deliveryFee: "70.00",
+    minimumOrder: "250.00",
+    address: "321 China Town, Heritage District",
+    distance: "3.2 km",
+    isOpen: false,
+    cuisine: "Chinese"
+  },
+  {
+    id: nanoid(),
+    name: "The Breakfast Club",
+    image: "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300",
+    rating: 4.7,
+    deliveryTime: "15-25 mins",
+    deliveryFee: "30.00",
+    minimumOrder: "100.00",
+    address: "654 Morning Avenue, Residential Area",
+    distance: "1.5 km",
+    isOpen: true,
+    cuisine: "Breakfast & Brunch"
+  }
+];
+
+// Mock tables
+export const mockTables: Table[] = [
+  {
+    id: nanoid(),
+    number: 1,
+    seats: 2,
+    isAvailable: true,
+    type: 'standard',
+    location: 'Main dining area'
+  },
+  {
+    id: nanoid(),
+    number: 2,
+    seats: 4,
+    isAvailable: true,
+    type: 'window',
+    location: 'Window side'
+  },
+  {
+    id: nanoid(),
+    number: 3,
+    seats: 6,
+    isAvailable: false,
+    type: 'standard',
+    location: 'Main dining area'
+  },
+  {
+    id: nanoid(),
+    number: 4,
+    seats: 2,
+    isAvailable: true,
+    type: 'private',
+    location: 'Private dining room'
+  },
+  {
+    id: nanoid(),
+    number: 5,
+    seats: 8,
+    isAvailable: true,
+    type: 'private',
+    location: 'VIP section'
+  },
+  {
+    id: nanoid(),
+    number: 6,
+    seats: 4,
+    isAvailable: true,
+    type: 'outdoor',
+    location: 'Terrace'
+  },
+  {
+    id: nanoid(),
+    number: 7,
+    seats: 2,
+    isAvailable: false,
+    type: 'window',
+    location: 'Window side'
+  },
+  {
+    id: nanoid(),
+    number: 8,
+    seats: 4,
+    isAvailable: true,
+    type: 'standard',
+    location: 'Main dining area'
+  }
+];
+
+// Mock reservations
+export const mockReservations: Reservation[] = [
+  {
+    id: nanoid(),
+    customerName: "John Smith",
+    customerPhone: "+1234567890",
+    customerEmail: "john@example.com",
+    date: "2025-01-27",
+    time: "19:00",
+    guests: 4,
+    tableId: mockTables[1].id,
+    specialRequests: "Birthday celebration",
+    status: 'confirmed',
+    createdAt: new Date()
+  }
 ];
 
 // Mock orders
@@ -251,6 +442,9 @@ class MockStorage {
   private orders = [...mockOrders];
   private serviceRequests = [...mockServiceRequests];
   private reviews = [...mockReviews];
+  private restaurants = [...mockRestaurants];
+  private tables = [...mockTables];
+  private reservations = [...mockReservations];
 
   // Menu Items
   async getMenuItems(): Promise<MenuItem[]> {
@@ -330,6 +524,55 @@ class MockStorage {
     };
     this.reviews.push(review);
     return Promise.resolve(review);
+  }
+
+  // Restaurants
+  async getRestaurants(location?: string): Promise<Restaurant[]> {
+    let restaurants = [...this.restaurants];
+    // Filter by location if provided (in real app, this would be proper geolocation filtering)
+    if (location) {
+      restaurants = restaurants.filter(r => r.isOpen);
+    }
+    return Promise.resolve(restaurants);
+  }
+
+  async getRestaurant(id: string): Promise<Restaurant | undefined> {
+    return Promise.resolve(this.restaurants.find(r => r.id === id));
+  }
+
+  // Tables
+  async getTables(guests?: number): Promise<Table[]> {
+    let tables = [...this.tables];
+    if (guests) {
+      tables = tables.filter(table => table.seats >= guests && table.isAvailable);
+    }
+    return Promise.resolve(tables);
+  }
+
+  async getTable(id: string): Promise<Table | undefined> {
+    return Promise.resolve(this.tables.find(t => t.id === id));
+  }
+
+  // Reservations
+  async getReservations(): Promise<Reservation[]> {
+    return Promise.resolve([...this.reservations]);
+  }
+
+  async createReservation(reservationData: Omit<Reservation, 'id' | 'createdAt'>): Promise<Reservation> {
+    const reservation: Reservation = {
+      ...reservationData,
+      id: nanoid(),
+      createdAt: new Date(),
+    };
+    this.reservations.push(reservation);
+    
+    // Mark table as unavailable for the time slot
+    const tableIndex = this.tables.findIndex(t => t.id === reservationData.tableId);
+    if (tableIndex >= 0) {
+      this.tables[tableIndex].isAvailable = false;
+    }
+    
+    return Promise.resolve(reservation);
   }
 
   // Colors and Themes

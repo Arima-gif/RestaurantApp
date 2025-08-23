@@ -48,6 +48,18 @@ export async function apiRequest(
       result = await mockStorage.getColors(theme);
     } else if (url.includes('/themes')) {
       result = await mockStorage.getThemes();
+    } else if (url.includes('/restaurants') && method === 'GET') {
+      const urlParams = new URLSearchParams(url.split('?')[1]);
+      const location = urlParams.get('location');
+      result = await mockStorage.getRestaurants(location || undefined);
+    } else if (url.includes('/tables') && method === 'GET') {
+      const urlParams = new URLSearchParams(url.split('?')[1]);
+      const guests = urlParams.get('guests');
+      result = await mockStorage.getTables(guests ? parseInt(guests) : undefined);
+    } else if (url.includes('/reservations') && method === 'GET') {
+      result = await mockStorage.getReservations();
+    } else if (url.includes('/reservations') && method === 'POST') {
+      result = await mockStorage.createReservation(data as any);
     } else {
       throw new Error(`Mock API endpoint not found: ${method} ${url}`);
     }

@@ -1,0 +1,387 @@
+import { useState } from "react";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { getQueryFn, queryClient, apiRequest } from "@/lib/queryClient";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
+import { Calendar, Clock, Users, MapPin, Check } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { Table } from "@/lib/mock-data";
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
+
+export default function ReservationPage() {
+  const [selectedTable, setSelectedTable] = useState<Table | null>(null);
+  const [guests, setGuests] = useState(2);
+  const [customerName, setCustomerName] = useState("");
+  const [customerPhone, setCustomerPhone] = useState("");
+  const [customerEmail, setCustomerEmail] = useState("");
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
+  const [specialRequests, setSpecialRequests] = useState("");
+  const [step, setStep] = useState<'table' | 'details' | 'confirmation'>('table');
+  const [reservationId, setReservationId] = useState<string | null>(null);
+  const { toast } = useToast();
+
+  const { data: tables, isLoading } = useQuery({
+    queryKey: ['/api/tables', guests.toString()],
+    queryFn: getQueryFn({ on401: "throw" }),
+  });
+
+  const reservationMutation = useMutation({
+    mutationFn: async (data: any) => {
+      return apiRequest("POST", "/api/reservations", data);
+    },
+    onSuccess: async (response) => {
+      const result = await response.json();
+      setReservationId(result.id);
+      setStep('confirmation');
+      toast({
+        title: "Reservation Confirmed!",
+        description: "Your table has been successfully reserved.",
+      });
+      queryClient.invalidateQueries({ queryKey: ['/api/tables'] });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to make reservation. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleTableSelect = (table: Table) => {
+    setSelectedTable(table);
+    setStep('details');
+  };
+
+  const handleSubmitReservation = () => {
+    if (!selectedTable || !customerName || !customerPhone || !date || !time) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in all required fields.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    reservationMutation.mutate({
+      customerName,
+      customerPhone,
+      customerEmail,
+      date,
+      time,
+      guests,
+      tableId: selectedTable.id,
+      specialRequests,
+      status: 'confirmed',
+    });
+  };
+
+  const getTableTypeColor = (type: string) => {
+    switch (type) {
+      case 'window': return 'bg-blue-100 text-blue-800';
+      case 'private': return 'bg-purple-100 text-purple-800';
+      case 'outdoor': return 'bg-green-100 text-green-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const getTableTypeIcon = (type: string) => {
+    switch (type) {
+      case 'window': return '🪟';
+      case 'private': return '🔒';
+      case 'outdoor': return '🌿';
+      default: return '🪑';
+    }
+  };
+
+  if (step === 'confirmation') {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <Navbar />
+        
+        <div className="container mx-auto px-4 py-8">
+          <div className="max-w-2xl mx-auto">
+            <Card className="text-center">
+              <CardContent className="pt-6">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Check className="w-8 h-8 text-green-600" />
+                </div>
+                <h1 className="text-2xl font-bold text-gray-900 mb-2">
+                  Reservation Confirmed!
+                </h1>
+                <p className="text-gray-600 mb-6">
+                  Your table has been successfully reserved.
+                </p>
+                
+                <div className="bg-gray-50 rounded-lg p-4 mb-6 text-left">
+                  <h3 className="font-semibold mb-3">Reservation Details:</h3>
+                  <div className="space-y-2 text-sm">
+                    <div><strong>Reservation ID:</strong> {reservationId}</div>
+                    <div><strong>Name:</strong> {customerName}</div>
+                    <div><strong>Date:</strong> {date}</div>
+                    <div><strong>Time:</strong> {time}</div>
+                    <div><strong>Guests:</strong> {guests}</div>
+                    <div><strong>Table:</strong> {selectedTable?.number} ({selectedTable?.type})</div>
+                    {specialRequests && (
+                      <div><strong>Special Requests:</strong> {specialRequests}</div>
+                    )}
+                  </div>
+                </div>
+
+                <Button 
+                  onClick={() => window.location.href = '/'}
+                  data-testid="button-back-to-home"
+                >
+                  Back to Home
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        <Footer />
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Navbar />
+      
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto">
+          {/* Header */}
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              Table Reservation
+            </h1>
+            <p className="text-gray-600">
+              Book a table for your dining experience
+            </p>
+          </div>
+
+          {/* Steps */}
+          <div className="flex items-center mb-8">
+            <div className={`flex items-center ${step === 'table' ? 'text-blue-600' : 'text-green-600'}`}>
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium ${step === 'table' ? 'bg-blue-600' : 'bg-green-600'}`}>
+                {step === 'table' ? '1' : '✓'}
+              </div>
+              <span className="ml-2 font-medium">Select Table</span>
+            </div>
+            <div className="flex-1 h-px bg-gray-300 mx-4"></div>
+            <div className={`flex items-center ${step === 'details' ? 'text-blue-600' : step === 'confirmation' ? 'text-green-600' : 'text-gray-400'}`}>
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium ${step === 'details' ? 'bg-blue-600' : step === 'confirmation' ? 'bg-green-600' : 'bg-gray-300'}`}>
+                {step === 'confirmation' ? '✓' : '2'}
+              </div>
+              <span className="ml-2 font-medium">Your Details</span>
+            </div>
+          </div>
+
+          {step === 'table' && (
+            <>
+              {/* Guest Selection */}
+              <Card className="mb-6">
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <Users className="w-5 h-5 mr-2" />
+                    Number of Guests
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center space-x-4">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setGuests(Math.max(1, guests - 1))}
+                      data-testid="button-decrease-guests"
+                    >
+                      -
+                    </Button>
+                    <span className="text-xl font-semibold w-8 text-center">{guests}</span>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setGuests(guests + 1)}
+                      data-testid="button-increase-guests"
+                    >
+                      +
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Available Tables */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Available Tables</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {isLoading ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {[1, 2, 3].map((i) => (
+                        <div key={i} className="animate-pulse">
+                          <div className="h-32 bg-gray-200 rounded-lg"></div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {(tables as Table[])?.filter((table: Table) => table.seats >= guests && table.isAvailable).map((table: Table) => (
+                        <Card 
+                          key={table.id}
+                          className="cursor-pointer transition-all duration-200 hover:shadow-md hover:scale-105"
+                          onClick={() => handleTableSelect(table)}
+                          data-testid={`table-card-${table.id}`}
+                        >
+                          <CardContent className="p-4">
+                            <div className="text-center">
+                              <div className="text-2xl mb-2">
+                                {getTableTypeIcon(table.type)}
+                              </div>
+                              <h3 className="font-semibold text-lg mb-2">
+                                Table {table.number}
+                              </h3>
+                              <Badge className={`mb-2 ${getTableTypeColor(table.type)}`}>
+                                {table.type}
+                              </Badge>
+                              <div className="text-sm text-gray-600 space-y-1">
+                                <div className="flex items-center justify-center">
+                                  <Users className="w-4 h-4 mr-1" />
+                                  {table.seats} seats
+                                </div>
+                                <div className="flex items-center justify-center">
+                                  <MapPin className="w-4 h-4 mr-1" />
+                                  {table.location}
+                                </div>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  )}
+
+                  {(tables as Table[])?.filter((table: Table) => table.seats >= guests && table.isAvailable).length === 0 && !isLoading && (
+                    <div className="text-center py-8">
+                      <p className="text-gray-500">
+                        No tables available for {guests} guests. Try reducing the number of guests.
+                      </p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </>
+          )}
+
+          {step === 'details' && selectedTable && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Reservation Details</CardTitle>
+                <p className="text-sm text-gray-600">
+                  Selected: Table {selectedTable.number} ({selectedTable.type}) - {selectedTable.seats} seats
+                </p>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <div>
+                      <Label htmlFor="customerName">Full Name *</Label>
+                      <Input
+                        id="customerName"
+                        value={customerName}
+                        onChange={(e) => setCustomerName(e.target.value)}
+                        placeholder="Enter your full name"
+                        data-testid="input-customer-name"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="customerPhone">Phone Number *</Label>
+                      <Input
+                        id="customerPhone"
+                        value={customerPhone}
+                        onChange={(e) => setCustomerPhone(e.target.value)}
+                        placeholder="+1234567890"
+                        data-testid="input-customer-phone"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="customerEmail">Email Address</Label>
+                      <Input
+                        id="customerEmail"
+                        type="email"
+                        value={customerEmail}
+                        onChange={(e) => setCustomerEmail(e.target.value)}
+                        placeholder="your@email.com"
+                        data-testid="input-customer-email"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div>
+                      <Label htmlFor="date">Reservation Date *</Label>
+                      <Input
+                        id="date"
+                        type="date"
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
+                        min={new Date().toISOString().split('T')[0]}
+                        data-testid="input-reservation-date"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="time">Reservation Time *</Label>
+                      <Input
+                        id="time"
+                        type="time"
+                        value={time}
+                        onChange={(e) => setTime(e.target.value)}
+                        data-testid="input-reservation-time"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="specialRequests">Special Requests</Label>
+                      <Textarea
+                        id="specialRequests"
+                        value={specialRequests}
+                        onChange={(e) => setSpecialRequests(e.target.value)}
+                        placeholder="Any special requirements or occasions..."
+                        rows={3}
+                        data-testid="textarea-special-requests"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex justify-between pt-6 border-t">
+                  <Button
+                    variant="outline"
+                    onClick={() => setStep('table')}
+                    data-testid="button-back-to-tables"
+                  >
+                    Back to Tables
+                  </Button>
+                  <Button
+                    onClick={handleSubmitReservation}
+                    disabled={reservationMutation.isPending}
+                    data-testid="button-confirm-reservation"
+                  >
+                    {reservationMutation.isPending ? 'Confirming...' : 'Confirm Reservation'}
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      </div>
+
+      <Footer />
+    </div>
+  );
+}

@@ -16,7 +16,9 @@ import ReviewModal from "@/components/modals/review-modal";
 import ServiceRequestModal from "@/components/modals/service-request-modal";
 import OrderConfirmationModal from "@/components/modals/order-confirmation-modal";
 import ThemeSwitcher from "@/components/theme-switcher";
-import { MenuItem } from "@shared/schema";
+import { MenuItem } from "@/lib/mock-data";
+import { useCartStore } from "@/lib/store";
+import { getQueryFn } from "@/lib/queryClient";
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -26,7 +28,10 @@ export default function Home() {
 
   const { data: menuItems = [], isLoading } = useQuery<MenuItem[]>({
     queryKey: ["/api/menu-items"],
+    queryFn: getQueryFn({ on401: "throw" }),
   });
+  
+  const { setServiceSelectionOpen } = useCartStore();
 
   const filteredItems = menuItems.filter((item) => {
     const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -76,9 +81,19 @@ export default function Home() {
         </div>
         
         <div className="absolute bottom-0 left-0 right-0 configurable-primary text-white py-3">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-center">
-            <Armchair className="mr-3" size={20} />
-            <span className="text-lg font-medium">You're at TABLE #5</span>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+            <div className="flex items-center">
+              <Armchair className="mr-3" size={20} />
+              <span className="text-lg font-medium">You're at TABLE #5</span>
+            </div>
+            <Button 
+              variant="secondary" 
+              onClick={() => setServiceSelectionOpen(true)}
+              data-testid="button-open-service-selection"
+              className="bg-white text-gray-900 hover:bg-gray-100"
+            >
+              Other Services
+            </Button>
           </div>
         </div>
       </div>

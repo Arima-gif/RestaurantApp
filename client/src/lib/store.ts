@@ -1,5 +1,20 @@
 import { create } from 'zustand';
-import { MenuItem } from '@shared/schema';
+import { MenuItem } from './mock-data';
+
+export type ServiceType = 'dine-in' | 'delivery' | 'takeaway' | 'reservation';
+
+export interface Restaurant {
+  id: string;
+  name: string;
+  image: string;
+  rating: number;
+  deliveryTime: string;
+  deliveryFee: string;
+  minimumOrder: string;
+  address: string;
+  distance: string;
+  isOpen: boolean;
+}
 
 export interface CartItem extends MenuItem {
   quantity: number;
@@ -16,8 +31,12 @@ export interface CartItem extends MenuItem {
 interface CartStore {
   items: CartItem[];
   lastAddedItem: MenuItem | null;
+  serviceType: ServiceType;
+  selectedRestaurant: Restaurant | null;
+  userLocation: string;
   isCartOpen: boolean;
   isServiceModalOpen: boolean;
+  isServiceSelectionOpen: boolean;
   isAddToCartModalOpen: boolean;
   isPaymentModalOpen: boolean;
   isSplitBillModalOpen: boolean;
@@ -32,6 +51,7 @@ interface CartStore {
   getCartCount: () => number;
   setCartOpen: (open: boolean) => void;
   setServiceModalOpen: (open: boolean) => void;
+  setServiceSelectionOpen: (open: boolean) => void;
   setAddToCartModalOpen: (open: boolean) => void;
   setPaymentModalOpen: (open: boolean) => void;
   setSplitBillModalOpen: (open: boolean) => void;
@@ -39,13 +59,20 @@ interface CartStore {
   setOrderConfirmationOpen: (open: boolean) => void;
   setSplitBillMode: (mode: 'equality' | 'items') => void;
   setLastAddedItem: (item: MenuItem | null) => void;
+  setServiceType: (type: ServiceType) => void;
+  setSelectedRestaurant: (restaurant: Restaurant | null) => void;
+  setUserLocation: (location: string) => void;
 }
 
 export const useCartStore = create<CartStore>((set, get) => ({
   items: [],
   lastAddedItem: null,
+  serviceType: 'dine-in',
+  selectedRestaurant: null,
+  userLocation: '',
   isCartOpen: false,
   isServiceModalOpen: false,
+  isServiceSelectionOpen: false,
   isAddToCartModalOpen: false,
   isPaymentModalOpen: false,
   isSplitBillModalOpen: false,
@@ -108,6 +135,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
   
   setCartOpen: (open: boolean) => set({ isCartOpen: open }),
   setServiceModalOpen: (open: boolean) => set({ isServiceModalOpen: open }),
+  setServiceSelectionOpen: (open: boolean) => set({ isServiceSelectionOpen: open }),
   setAddToCartModalOpen: (open: boolean) => set({ isAddToCartModalOpen: open }),
   setPaymentModalOpen: (open: boolean) => set({ isPaymentModalOpen: open }),
   setSplitBillModalOpen: (open: boolean) => set({ isSplitBillModalOpen: open }),
@@ -115,4 +143,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
   setOrderConfirmationOpen: (open: boolean) => set({ isOrderConfirmationOpen: open }),
   setSplitBillMode: (mode: 'equality' | 'items') => set({ splitBillMode: mode }),
   setLastAddedItem: (item: MenuItem | null) => set({ lastAddedItem: item }),
+  setServiceType: (type: ServiceType) => set({ serviceType: type }),
+  setSelectedRestaurant: (restaurant: Restaurant | null) => set({ selectedRestaurant: restaurant }),
+  setUserLocation: (location: string) => set({ userLocation: location }),
 }));
