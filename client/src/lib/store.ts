@@ -37,6 +37,7 @@ interface CartStore {
   isCartOpen: boolean;
   isServiceModalOpen: boolean;
   isServiceSelectionOpen: boolean;
+  initialServiceOpen: boolean;
   isAddToCartModalOpen: boolean;
   isPaymentModalOpen: boolean;
   isSplitBillModalOpen: boolean;
@@ -52,6 +53,7 @@ interface CartStore {
   setCartOpen: (open: boolean) => void;
   setServiceModalOpen: (open: boolean) => void;
   setServiceSelectionOpen: (open: boolean) => void;
+  setInitialServiceOpen: (open: boolean) => void;
   setAddToCartModalOpen: (open: boolean) => void;
   setPaymentModalOpen: (open: boolean) => void;
   setSplitBillModalOpen: (open: boolean) => void;
@@ -73,6 +75,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
   isCartOpen: false,
   isServiceModalOpen: false,
   isServiceSelectionOpen: false,
+  initialServiceOpen: true,
   isAddToCartModalOpen: false,
   isPaymentModalOpen: false,
   isSplitBillModalOpen: false,
@@ -136,6 +139,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
   setCartOpen: (open: boolean) => set({ isCartOpen: open }),
   setServiceModalOpen: (open: boolean) => set({ isServiceModalOpen: open }),
   setServiceSelectionOpen: (open: boolean) => set({ isServiceSelectionOpen: open }),
+  setInitialServiceOpen: (open: boolean) => set({ initialServiceOpen: open }),
   setAddToCartModalOpen: (open: boolean) => set({ isAddToCartModalOpen: open }),
   setPaymentModalOpen: (open: boolean) => set({ isPaymentModalOpen: open }),
   setSplitBillModalOpen: (open: boolean) => set({ isSplitBillModalOpen: open }),
