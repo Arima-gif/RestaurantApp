@@ -175,9 +175,9 @@ export default function ReservationPage() {
               <span className="ml-2 font-medium">Select Table</span>
             </div>
             <div className="flex-1 h-px bg-gray-300 mx-4"></div>
-            <div className={`flex items-center ${step === 'details' ? 'text-blue-600' : step === 'confirmation' ? 'text-green-600' : 'text-gray-400'}`}>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium ${step === 'details' ? 'bg-blue-600' : step === 'confirmation' ? 'bg-green-600' : 'bg-gray-300'}`}>
-                {step === 'confirmation' ? '✓' : '2'}
+            <div className={`flex items-center ${step === 'details' ? 'text-blue-600' : step !== 'table' ? 'text-green-600' : 'text-gray-400'}`}>
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium ${step === 'details' ? 'bg-blue-600' : step !== 'table' ? 'bg-green-600' : 'bg-gray-300'}`}>
+                {step !== 'table' && step !== 'details' ? '✓' : '2'}
               </div>
               <span className="ml-2 font-medium">Your Details</span>
             </div>
