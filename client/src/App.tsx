@@ -10,7 +10,6 @@ import Takeaway from "@/pages/takeaway";
 import Reservation from "@/pages/reservation";
 import RestaurantMenu from "@/pages/restaurant-menu";
 import NotFound from "@/pages/not-found";
-import ServiceSelectionModal from "@/components/modals/service-selection-modal";
 
 function Router() {
   return (
@@ -32,7 +31,6 @@ function App() {
       <TooltipProvider>
         <Toaster />
         <Router />
-        <ServiceSelectionModal />
       </TooltipProvider>
     </QueryClientProvider>
   );
