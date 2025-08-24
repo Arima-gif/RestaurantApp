@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Star, Clock, DollarSign, MapPin, Search } from "lucide-react";
+import { Star, Clock, DollarSign, MapPin, Search, Filter } from "lucide-react";
 import { useCartStore } from "@/lib/store";
 import { Restaurant } from "@/lib/mock-data";
 import { useLocation } from "wouter";
