@@ -6,7 +6,7 @@ import { useCartStore } from "@/lib/store";
 import { useCart } from "@/hooks/use-cart";
 
 export default function CartModal() {
-  const { isCartOpen, setCartOpen, setPaymentModalOpen, removeItem } = useCartStore();
+  const { isCartOpen, setCartOpen, setPaymentModalOpen, setDeliveryDetailsModalOpen, serviceType, removeItem } = useCartStore();
   const { items, updateQuantity, clearCart, total } = useCart();
 
   const serviceCharge = 500;
@@ -15,7 +15,13 @@ export default function CartModal() {
 
   const handleProceedToPayment = () => {
     setCartOpen(false);
-    setPaymentModalOpen(true);
+    
+    // For delivery orders, go to delivery details first
+    if (serviceType === 'delivery') {
+      setDeliveryDetailsModalOpen(true);
+    } else {
+      setPaymentModalOpen(true);
+    }
   };
 
   return (
@@ -146,7 +152,7 @@ export default function CartModal() {
             className="w-full bg-green-600 text-white py-4 text-base font-medium hover:bg-green-700 rounded-lg mt-6"
             disabled={items.length === 0}
           >
-            Place Order
+            {serviceType === 'delivery' ? 'Enter Delivery Details' : 'Proceed to Payment'}
           </Button>
         </div>
       </DialogContent>

@@ -26,7 +26,9 @@ export default function DeliveryPage() {
   });
 
   // Get unique categories from restaurants
-  const categories = ["All", ...new Set((restaurants as Restaurant[])?.map(r => r.cuisine) || [])];
+  const cuisineTypes = (restaurants as Restaurant[])?.map(r => r.cuisine) || [];
+  const uniqueCuisines = cuisineTypes.filter((value, index, self) => self.indexOf(value) === index);
+  const categories = ["All", ...uniqueCuisines];
 
   const filteredRestaurants = (restaurants as Restaurant[])?.filter((restaurant: Restaurant) => {
     const matchesSearch = restaurant.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
