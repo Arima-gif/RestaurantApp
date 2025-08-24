@@ -223,15 +223,15 @@ export default function ReservationPage() {
                 </CardHeader>
                 <CardContent>
                   {isLoading ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3">
                       {[1, 2, 3].map((i) => (
                         <div key={i} className="animate-pulse">
-                          <div className="h-32 bg-gray-200 rounded-lg"></div>
+                          <div className="h-28 bg-gray-200 rounded-lg"></div>
                         </div>
                       ))}
                     </div>
                   ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3">
                       {(tables as Table[])?.filter((table: Table) => table.seats >= guests && table.isAvailable).map((table: Table) => (
                         <Card 
                           key={table.id}
@@ -239,24 +239,24 @@ export default function ReservationPage() {
                           onClick={() => handleTableSelect(table)}
                           data-testid={`table-card-${table.id}`}
                         >
-                          <CardContent className="p-4">
+                          <CardContent className="p-3">
                             <div className="text-center">
-                              <div className="text-2xl mb-2">
+                              <div className="text-xl mb-1">
                                 {getTableTypeIcon(table.type)}
                               </div>
-                              <h3 className="font-semibold text-lg mb-2">
+                              <h3 className="font-semibold text-sm mb-1">
                                 Table {table.number}
                               </h3>
-                              <Badge className={`mb-2 ${getTableTypeColor(table.type)}`}>
+                              <Badge className={`mb-2 text-xs ${getTableTypeColor(table.type)}`}>
                                 {table.type}
                               </Badge>
-                              <div className="text-sm text-gray-600 space-y-1">
+                              <div className="text-xs text-gray-600 space-y-1">
                                 <div className="flex items-center justify-center">
-                                  <Users className="w-4 h-4 mr-1" />
+                                  <Users className="w-3 h-3 mr-1" />
                                   {table.seats} seats
                                 </div>
                                 <div className="flex items-center justify-center">
-                                  <MapPin className="w-4 h-4 mr-1" />
+                                  <MapPin className="w-3 h-3 mr-1" />
                                   {table.location}
                                 </div>
                               </div>
@@ -289,9 +289,9 @@ export default function ReservationPage() {
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-4">
+                  <div className="space-y-6">
                     <div>
-                      <Label htmlFor="customerName">Full Name *</Label>
+                      <Label htmlFor="customerName" className="mb-2 block">Full Name *</Label>
                       <Input
                         id="customerName"
                         value={customerName}
@@ -301,7 +301,7 @@ export default function ReservationPage() {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="customerPhone">Phone Number *</Label>
+                      <Label htmlFor="customerPhone" className="mb-2 block">Phone Number *</Label>
                       <Input
                         id="customerPhone"
                         value={customerPhone}
@@ -311,7 +311,7 @@ export default function ReservationPage() {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="customerEmail">Email Address</Label>
+                      <Label htmlFor="customerEmail" className="mb-2 block">Email Address</Label>
                       <Input
                         id="customerEmail"
                         type="email"
@@ -323,9 +323,9 @@ export default function ReservationPage() {
                     </div>
                   </div>
 
-                  <div className="space-y-4">
+                  <div className="space-y-6">
                     <div>
-                      <Label htmlFor="date">Reservation Date *</Label>
+                      <Label htmlFor="date" className="mb-2 block">Reservation Date *</Label>
                       <Input
                         id="date"
                         type="date"
@@ -336,7 +336,7 @@ export default function ReservationPage() {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="time">Reservation Time *</Label>
+                      <Label htmlFor="time" className="mb-2 block">Reservation Time *</Label>
                       <Input
                         id="time"
                         type="time"
@@ -346,7 +346,7 @@ export default function ReservationPage() {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="specialRequests">Special Requests</Label>
+                      <Label htmlFor="specialRequests" className="mb-2 block">Special Requests</Label>
                       <Textarea
                         id="specialRequests"
                         value={specialRequests}

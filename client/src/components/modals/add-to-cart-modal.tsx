@@ -97,7 +97,7 @@ export default function AddToCartModal() {
           <Collapsible open={toppingsOpen} onOpenChange={setToppingsOpen}>
             <CollapsibleTrigger className="w-full bg-gray-200 p-3 rounded-lg flex items-center justify-between font-medium">
               Extra Toppings
-              {toppingsOpen ? <ChevronUp className="text-green-600" size={20} /> : <ChevronDown className="text-green-600" size={20} />}
+              {toppingsOpen ? <ChevronUp className="configurable-primary-text" size={20} /> : <ChevronDown className="configurable-primary-text" size={20} />}
             </CollapsibleTrigger>
             <CollapsibleContent className="mt-2 space-y-2">
               {extraToppings.map((topping) => (
@@ -108,7 +108,7 @@ export default function AddToCartModal() {
                     <div className="flex items-center space-x-2">
                       <button
                         onClick={() => updateToppingQuantity(topping.name, -1)}
-                        className="w-6 h-6 rounded bg-green-600 text-white flex items-center justify-center hover:bg-green-700"
+                        className="w-6 h-6 rounded configurable-primary text-white flex items-center justify-center hover:configurable-primary-hover"
                       >
                         <Minus size={12} />
                       </button>
@@ -117,7 +117,7 @@ export default function AddToCartModal() {
                       </span>
                       <button
                         onClick={() => updateToppingQuantity(topping.name, 1)}
-                        className="w-6 h-6 rounded bg-green-600 text-white flex items-center justify-center hover:bg-green-700"
+                        className="w-6 h-6 rounded configurable-primary text-white flex items-center justify-center hover:configurable-primary-hover"
                       >
                         <Plus size={12} />
                       </button>
@@ -132,7 +132,7 @@ export default function AddToCartModal() {
           <Collapsible open={flavourOpen} onOpenChange={setFlavourOpen}>
             <CollapsibleTrigger className="w-full bg-gray-200 p-3 rounded-lg flex items-center justify-between font-medium">
               Pizza Flavour
-              {flavourOpen ? <ChevronUp className="text-green-600" size={20} /> : <ChevronDown className="text-green-600" size={20} />}
+              {flavourOpen ? <ChevronUp className="configurable-primary-text" size={20} /> : <ChevronDown className="configurable-primary-text" size={20} />}
             </CollapsibleTrigger>
             <CollapsibleContent className="mt-2 space-y-2">
               {pizzaFlavours.map((flavour) => (
@@ -141,7 +141,7 @@ export default function AddToCartModal() {
                   onClick={() => setSelectedFlavour(flavour)}
                   className={`w-full text-left p-2 rounded text-sm ${
                     selectedFlavour === flavour 
-                      ? 'bg-green-100 border border-green-600' 
+                      ? 'configurable-secondary border configurable-border' 
                       : 'bg-gray-50 hover:bg-gray-100'
                   }`}
                 >
@@ -155,7 +155,7 @@ export default function AddToCartModal() {
           <Collapsible open={sauceOpen} onOpenChange={setSauceOpen}>
             <CollapsibleTrigger className="w-full bg-gray-200 p-3 rounded-lg flex items-center justify-between font-medium">
               Sauce Level
-              {sauceOpen ? <ChevronUp className="text-green-600" size={20} /> : <ChevronDown className="text-green-600" size={20} />}
+              {sauceOpen ? <ChevronUp className="configurable-primary-text" size={20} /> : <ChevronDown className="configurable-primary-text" size={20} />}
             </CollapsibleTrigger>
             <CollapsibleContent className="mt-2 space-y-2">
               {sauceLevels.map((sauce) => (
@@ -164,7 +164,7 @@ export default function AddToCartModal() {
                   onClick={() => setSelectedSauce(sauce)}
                   className={`w-full text-left p-2 rounded text-sm ${
                     selectedSauce === sauce 
-                      ? 'bg-green-100 border border-green-600' 
+                      ? 'configurable-secondary border configurable-border' 
                       : 'bg-gray-50 hover:bg-gray-100'
                   }`}
                 >
@@ -178,7 +178,7 @@ export default function AddToCartModal() {
           <Collapsible open={crustOpen} onOpenChange={setCrustOpen}>
             <CollapsibleTrigger className="w-full bg-gray-200 p-3 rounded-lg flex items-center justify-between font-medium">
               Crust Type
-              {crustOpen ? <ChevronUp className="text-green-600" size={20} /> : <ChevronDown className="text-green-600" size={20} />}
+              {crustOpen ? <ChevronUp className="configurable-primary-text" size={20} /> : <ChevronDown className="configurable-primary-text" size={20} />}
             </CollapsibleTrigger>
             <CollapsibleContent className="mt-2 space-y-2">
               {crustTypes.map((crust) => (
@@ -187,7 +187,7 @@ export default function AddToCartModal() {
                   onClick={() => setSelectedCrust(crust)}
                   className={`w-full text-left p-2 rounded text-sm ${
                     selectedCrust === crust 
-                      ? 'bg-green-100 border border-green-600' 
+                      ? 'configurable-secondary border configurable-border' 
                       : 'bg-gray-50 hover:bg-gray-100'
                   }`}
                 >
@@ -224,21 +224,21 @@ export default function AddToCartModal() {
             <div className="flex items-center space-x-2">
               <button
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                className="w-8 h-8 rounded bg-green-600 text-white flex items-center justify-center hover:bg-green-700"
+                className="w-8 h-8 rounded configurable-primary text-white flex items-center justify-center hover:configurable-primary-hover"
               >
                 <Minus size={14} />
               </button>
               <span className="w-8 text-center text-sm font-medium">{quantity}</span>
               <button
                 onClick={() => setQuantity(quantity + 1)}
-                className="w-8 h-8 rounded bg-green-600 text-white flex items-center justify-center hover:bg-green-700"
+                className="w-8 h-8 rounded configurable-primary text-white flex items-center justify-center hover:configurable-primary-hover"
               >
                 <Plus size={14} />
               </button>
             </div>
             <Button
               onClick={handleAddToCart}
-              className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-medium"
+              className="configurable-primary hover:configurable-primary-hover text-white px-8 py-3 rounded-lg font-medium"
             >
               Rs. {getTotalPrice().toFixed(2)} Add to cart
             </Button>

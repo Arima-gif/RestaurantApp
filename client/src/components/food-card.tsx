@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MenuItem } from "@shared/schema";
+import { MenuItem } from "@/lib/mock-data";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useCartStore } from "@/lib/store";
@@ -50,6 +50,9 @@ export default function FoodCard({ item, variant = "grid" }: FoodCardProps) {
     const variation = sizes.find(size => size.name === selectedSize)?.label || 'Medium';
     setLastAddedItem(itemWithVariation);
     setAddToCartModalOpen(true);
+    // Clear selections after opening modal
+    setSelectedSize("medium");
+    setSelectedToppings([]);
   };
 
   if (variant === "list") {

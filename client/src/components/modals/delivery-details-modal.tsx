@@ -82,7 +82,7 @@ export default function DeliveryDetailsModal() {
       <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader className="border-b border-gray-200 pb-4">
           <DialogTitle className="text-xl font-bold text-black flex items-center">
-            <MapPin className="w-5 h-5 mr-2 text-green-600" />
+            <MapPin className="w-5 h-5 mr-2 configurable-primary-text" />
             Delivery Details
           </DialogTitle>
         </DialogHeader>
@@ -237,7 +237,7 @@ export default function DeliveryDetailsModal() {
             </Button>
             <Button 
               onClick={handleProceedToPayment}
-              className="flex-1 bg-green-600 hover:bg-green-700 text-white"
+              className="flex-1 configurable-primary hover:configurable-primary-hover text-white"
               data-testid="button-proceed-to-payment"
             >
               Proceed to Payment

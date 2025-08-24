@@ -158,6 +158,16 @@
     color: var(--color-food-category);
   }
   
+  /* Primary text color */
+  .configurable-primary-text {
+    color: var(--color-primary);
+  }
+  
+  /* Hover effect for primary backgrounds */
+  .configurable-primary-hover {
+    background-color: var(--color-primary-hover);
+  }
+  
   .modal-overlay {
     background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(4px);

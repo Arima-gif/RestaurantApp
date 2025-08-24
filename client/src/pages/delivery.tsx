@@ -119,11 +119,11 @@ export default function DeliveryPage() {
 
           {/* Restaurant List */}
           {isLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {[1, 2, 3, 4].map((i) => (
                 <Card key={i} className="animate-pulse">
-                  <CardContent className="p-6">
-                    <div className="h-40 bg-gray-200 rounded-lg mb-4"></div>
+                  <CardContent className="p-4">
+                    <div className="h-32 bg-gray-200 rounded-lg mb-4"></div>
                     <div className="h-4 bg-gray-200 rounded mb-2"></div>
                     <div className="h-4 bg-gray-200 rounded w-2/3"></div>
                   </CardContent>
@@ -131,7 +131,7 @@ export default function DeliveryPage() {
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {filteredRestaurants.map((restaurant: Restaurant) => (
                 <Card 
                   key={restaurant.id} 
@@ -146,7 +146,7 @@ export default function DeliveryPage() {
                       <img
                         src={restaurant.image}
                         alt={restaurant.name}
-                        className="w-full h-40 object-cover rounded-t-lg"
+                        className="w-full h-32 object-cover rounded-t-lg"
                       />
                       {!restaurant.isOpen && (
                         <div className="absolute inset-0 bg-black bg-opacity-50 rounded-t-lg flex items-center justify-center">
@@ -161,9 +161,9 @@ export default function DeliveryPage() {
                       </div>
                     </div>
 
-                    <div className="p-4">
-                      <div className="flex justify-between items-start mb-2">
-                        <h3 className="font-semibold text-lg text-gray-900">
+                    <div className="p-3">
+                      <div className="mb-2">
+                        <h3 className="font-semibold text-gray-900 mb-1">
                           {restaurant.name}
                         </h3>
                         <Badge variant="outline" className="text-xs">
@@ -171,58 +171,31 @@ export default function DeliveryPage() {
                         </Badge>
                       </div>
 
-                      <div className="space-y-2 text-sm text-gray-600">
+                      <div className="space-y-1 text-xs text-gray-600 mb-3">
                         <div className="flex items-center">
-                          <Clock className="w-4 h-4 mr-2" />
+                          <Clock className="w-3 h-3 mr-1" />
                           {restaurant.deliveryTime}
                         </div>
                         <div className="flex items-center">
-                          <DollarSign className="w-4 h-4 mr-2" />
-                          Delivery Fee: PKR {restaurant.deliveryFee}
+                          <DollarSign className="w-3 h-3 mr-1" />
+                          Fee: PKR {restaurant.deliveryFee}
                         </div>
                         <div className="flex items-center">
-                          <MapPin className="w-4 h-4 mr-2" />
-                          {restaurant.distance} away
+                          <MapPin className="w-3 h-3 mr-1" />
+                          {restaurant.distance}
                         </div>
                       </div>
 
-                      <div className="mt-4 pt-3 border-t border-gray-100">
-                        <div className="space-y-3">
-                          {/* Order Details */}
-                          <div className="flex justify-between items-center text-sm">
-                            <span className="text-gray-500">Min order:</span>
-                            <span className="font-medium">PKR {restaurant.minimumOrder}</span>
-                          </div>
-                          
-                          <div className="flex justify-between items-center text-sm">
-                            <span className="text-gray-500">Delivery fee:</span>
-                            <span className="font-medium text-green-600">PKR {restaurant.deliveryFee}</span>
-                          </div>
-                          
-                          <div className="flex justify-between items-center text-sm">
-                            <span className="text-gray-500">Estimated time:</span>
-                            <span className="font-medium">{restaurant.deliveryTime}</span>
-                          </div>
-                          
-                          {/* Booking Options */}
-                          <div className="flex gap-2 mt-4">
-                            <Button 
-                              className="flex-1" 
-                              size="sm" 
-                              disabled={!restaurant.isOpen}
-                              onClick={() => handleSelectRestaurant(restaurant)}
-                              data-testid={`button-order-from-${restaurant.id}`}
-                            >
-                              {restaurant.isOpen ? 'View Menu & Order' : 'Closed'}
-                            </Button>
-                          </div>
-                          
-                          {restaurant.isOpen && (
-                            <div className="text-xs text-gray-500 text-center">
-                              Click to browse menu and place your order
-                            </div>
-                          )}
-                        </div>
+                      <div className="pt-2 border-t border-gray-100">
+                        <Button 
+                          size="sm" 
+                          className="w-full configurable-primary text-white hover:configurable-primary-hover"
+                          disabled={!restaurant.isOpen}
+                          onClick={() => handleSelectRestaurant(restaurant)}
+                          data-testid={`button-order-from-${restaurant.id}`}
+                        >
+                          {restaurant.isOpen ? 'Order Now' : 'Closed'}
+                        </Button>
                       </div>
                     </div>
                   </CardContent>

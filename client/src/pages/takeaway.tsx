@@ -104,11 +104,11 @@ export default function TakeawayPage() {
 
           {/* Restaurant List */}
           {isLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {[1, 2, 3, 4].map((i) => (
                 <Card key={i} className="animate-pulse">
-                  <CardContent className="p-6">
-                    <div className="h-40 bg-gray-200 rounded-lg mb-4"></div>
+                  <CardContent className="p-4">
+                    <div className="h-32 bg-gray-200 rounded-lg mb-4"></div>
                     <div className="h-4 bg-gray-200 rounded mb-2"></div>
                     <div className="h-4 bg-gray-200 rounded w-2/3"></div>
                   </CardContent>
@@ -116,7 +116,7 @@ export default function TakeawayPage() {
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {filteredRestaurants.map((restaurant: Restaurant) => (
                 <Card 
                   key={restaurant.id} 
@@ -131,7 +131,7 @@ export default function TakeawayPage() {
                       <img
                         src={restaurant.image}
                         alt={restaurant.name}
-                        className="w-full h-40 object-cover rounded-t-lg"
+                        className="w-full h-32 object-cover rounded-t-lg"
                       />
                       {!restaurant.isOpen && (
                         <div className="absolute inset-0 bg-black bg-opacity-50 rounded-t-lg flex items-center justify-center">
@@ -145,15 +145,15 @@ export default function TakeawayPage() {
                         </Badge>
                       </div>
                       <div className="absolute top-3 left-3">
-                        <Badge className="bg-green-500 text-white">
+                        <Badge className="configurable-primary text-white">
                           Take Away
                         </Badge>
                       </div>
                     </div>
 
-                    <div className="p-4">
-                      <div className="flex justify-between items-start mb-2">
-                        <h3 className="font-semibold text-lg text-gray-900">
+                    <div className="p-3">
+                      <div className="mb-2">
+                        <h3 className="font-semibold text-gray-900 mb-1">
                           {restaurant.name}
                         </h3>
                         <Badge variant="outline" className="text-xs">
@@ -161,34 +161,26 @@ export default function TakeawayPage() {
                         </Badge>
                       </div>
 
-                      <div className="space-y-2 text-sm text-gray-600 mb-4">
+                      <div className="space-y-1 text-xs text-gray-600 mb-3">
                         <div className="flex items-center">
-                          <Clock className="w-4 h-4 mr-2" />
-                          Ready in {restaurant.deliveryTime.replace('delivery', 'preparation')}
+                          <Clock className="w-3 h-3 mr-1" />
+                          {restaurant.deliveryTime.replace('delivery', 'preparation')}
                         </div>
-                        <div className="flex items-start">
-                          <MapPin className="w-4 h-4 mr-2 mt-0.5 flex-shrink-0" />
-                          <div>
-                            <div className="font-medium text-gray-900">Pickup Address:</div>
-                            <div className="text-gray-600">{restaurant.address}</div>
-                          </div>
+                        <div className="flex items-center">
+                          <MapPin className="w-3 h-3 mr-1" />
+                          Pickup available
                         </div>
                       </div>
 
-                      <div className="border-t border-gray-100 pt-3">
-                        <div className="flex justify-between items-center">
-                          <div className="flex items-center text-sm text-blue-600">
-                            <Navigation className="w-4 h-4 mr-1" />
-                            Get Directions
-                          </div>
-                          <Button 
-                            size="sm" 
-                            disabled={!restaurant.isOpen}
-                            data-testid={`button-takeaway-order-${restaurant.id}`}
-                          >
-                            {restaurant.isOpen ? 'Order Now' : 'Closed'}
-                          </Button>
-                        </div>
+                      <div className="pt-2 border-t border-gray-100">
+                        <Button 
+                          size="sm" 
+                          className="w-full configurable-primary text-white hover:configurable-primary-hover"
+                          disabled={!restaurant.isOpen}
+                          data-testid={`button-takeaway-order-${restaurant.id}`}
+                        >
+                          {restaurant.isOpen ? 'Order Now' : 'Closed'}
+                        </Button>
                       </div>
                     </div>
                   </CardContent>
