@@ -16,7 +16,7 @@ export default function FloatingButtons() {
       {/* Voice Assistant Button */}
       <Button
         onClick={handleVoiceAssistant}
-        className="w-14 h-14 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 transition-all duration-300"
+        className="w-14 h-14 configurable-primary text-white rounded-full shadow-lg hover:configurable-primary-hover transition-all duration-300"
         size="icon"
         title="Voice Assistant"
       >
