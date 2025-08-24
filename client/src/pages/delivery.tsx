@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Star, Clock, DollarSign, MapPin, Search, Filter } from "lucide-react";
 import { useCartStore } from "@/lib/store";
 import { Restaurant } from "@/lib/mock-data";
@@ -14,6 +15,7 @@ import Footer from "@/components/footer";
 
 export default function DeliveryPage() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
   const [userLocation, setUserLocation] = useState("Downtown");
   const { setSelectedRestaurant, setServiceType } = useCartStore();
   const [, setLocation] = useLocation();
@@ -23,10 +25,15 @@ export default function DeliveryPage() {
     queryFn: getQueryFn({ on401: "throw" }),
   });
 
-  const filteredRestaurants = (restaurants as Restaurant[])?.filter((restaurant: Restaurant) =>
-    restaurant.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    restaurant.cuisine.toLowerCase().includes(searchQuery.toLowerCase())
-  ) || [];
+  // Get unique categories from restaurants
+  const categories = ["All", ...new Set((restaurants as Restaurant[])?.map(r => r.cuisine) || [])];
+
+  const filteredRestaurants = (restaurants as Restaurant[])?.filter((restaurant: Restaurant) => {
+    const matchesSearch = restaurant.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         restaurant.cuisine.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = selectedCategory === "All" || restaurant.cuisine === selectedCategory;
+    return matchesSearch && matchesCategory;
+  }) || [];
 
   const handleSelectRestaurant = (restaurant: Restaurant) => {
     setSelectedRestaurant(restaurant);
@@ -77,6 +84,34 @@ export default function DeliveryPage() {
                   data-testid="input-search-restaurants"
                 />
               </div>
+            </div>
+          </div>
+
+          {/* Category Filters */}
+          <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+            <div className="flex items-center mb-4">
+              <Filter className="w-5 h-5 mr-2 text-gray-600" />
+              <h3 className="font-medium text-gray-900">Filter by Cuisine</h3>
+            </div>
+            <Tabs value={selectedCategory} onValueChange={setSelectedCategory} className="w-full">
+              <TabsList className="grid w-full grid-cols-3 lg:grid-cols-6">
+                {categories.map((category) => (
+                  <TabsTrigger
+                    key={category}
+                    value={category}
+                    className="text-sm"
+                    data-testid={`filter-${category.toLowerCase().replace(/\s+/g, '-')}`}
+                  >
+                    {category}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </Tabs>
+            
+            {/* Results count */}
+            <div className="mt-4 text-sm text-gray-600">
+              {filteredRestaurants.length} restaurants found
+              {selectedCategory !== "All" && ` in ${selectedCategory}`}
             </div>
           </div>
 
@@ -150,17 +185,41 @@ export default function DeliveryPage() {
                       </div>
 
                       <div className="mt-4 pt-3 border-t border-gray-100">
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm text-gray-500">
-                            Min order: PKR {restaurant.minimumOrder}
-                          </span>
-                          <Button 
-                            size="sm" 
-                            disabled={!restaurant.isOpen}
-                            data-testid={`button-order-from-${restaurant.id}`}
-                          >
-                            {restaurant.isOpen ? 'Order Now' : 'Closed'}
-                          </Button>
+                        <div className="space-y-3">
+                          {/* Order Details */}
+                          <div className="flex justify-between items-center text-sm">
+                            <span className="text-gray-500">Min order:</span>
+                            <span className="font-medium">PKR {restaurant.minimumOrder}</span>
+                          </div>
+                          
+                          <div className="flex justify-between items-center text-sm">
+                            <span className="text-gray-500">Delivery fee:</span>
+                            <span className="font-medium text-green-600">PKR {restaurant.deliveryFee}</span>
+                          </div>
+                          
+                          <div className="flex justify-between items-center text-sm">
+                            <span className="text-gray-500">Estimated time:</span>
+                            <span className="font-medium">{restaurant.deliveryTime}</span>
+                          </div>
+                          
+                          {/* Booking Options */}
+                          <div className="flex gap-2 mt-4">
+                            <Button 
+                              className="flex-1" 
+                              size="sm" 
+                              disabled={!restaurant.isOpen}
+                              onClick={() => handleSelectRestaurant(restaurant)}
+                              data-testid={`button-order-from-${restaurant.id}`}
+                            >
+                              {restaurant.isOpen ? 'View Menu & Order' : 'Closed'}
+                            </Button>
+                          </div>
+                          
+                          {restaurant.isOpen && (
+                            <div className="text-xs text-gray-500 text-center">
+                              Click to browse menu and place your order
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
