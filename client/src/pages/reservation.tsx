@@ -222,15 +222,15 @@ export default function ReservationPage() {
                 </CardHeader>
                 <CardContent>
                   {isLoading ? (
-                    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                       {[1, 2, 3].map((i) => (
                         <div key={i} className="animate-pulse">
-                          <div className="h-28 bg-gray-200 rounded-lg"></div>
+                          <div className="h-32 bg-gray-200 rounded-lg"></div>
                         </div>
                       ))}
                     </div>
                   ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                       {(tables as Table[])?.filter((table: Table) => table.seats >= guests && table.isAvailable).map((table: Table) => (
                         <Card 
                           key={table.id}
