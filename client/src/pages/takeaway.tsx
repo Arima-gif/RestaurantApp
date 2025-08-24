@@ -12,6 +12,7 @@ import { Restaurant } from "@/lib/mock-data";
 import { useLocation } from "wouter";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import ThemeSwitcher from "@/components/theme-switcher";
 
 export default function TakeawayPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -200,6 +201,7 @@ export default function TakeawayPage() {
       </div>
 
       <Footer />
+      <ThemeSwitcher />
     </div>
   );
 }

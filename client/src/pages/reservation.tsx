@@ -12,6 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Table } from "@/lib/mock-data";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import ThemeSwitcher from "@/components/theme-switcher";
 
 export default function ReservationPage() {
   const [selectedTable, setSelectedTable] = useState<Table | null>(null);
@@ -146,6 +147,7 @@ export default function ReservationPage() {
         </div>
 
         <Footer />
+        <ThemeSwitcher />
       </div>
     );
   }
@@ -380,6 +382,7 @@ export default function ReservationPage() {
       </div>
 
       <Footer />
+      <ThemeSwitcher />
     </div>
   );
 }
