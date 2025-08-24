@@ -32,7 +32,7 @@ export default function CartModal() {
         <DialogHeader className="border-b border-gray-200 pb-4">
           <div className="flex items-center justify-between">
             <DialogTitle className="text-xl font-bold text-black">Your cart</DialogTitle>
-            <Button variant="ghost" onClick={clearCart} className="text-green-600 font-medium hover:text-green-700">
+            <Button variant="ghost" onClick={clearCart} className="configurable-primary-text font-medium hover:configurable-primary-hover hover:text-white">
               Clear Cart
             </Button>
           </div>
@@ -86,14 +86,14 @@ export default function CartModal() {
                   <div className="flex items-center space-x-2">
                     <button
                       onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                      className="w-8 h-8 bg-green-600 text-white rounded flex items-center justify-center hover:bg-green-700"
+                      className="w-8 h-8 configurable-primary text-white rounded flex items-center justify-center hover:configurable-primary-hover"
                     >
                       <Minus size={14} />
                     </button>
                     <span className="w-12 text-center font-medium text-black">{item.quantity}</span>
                     <button
                       onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                      className="w-8 h-8 bg-green-600 text-white rounded flex items-center justify-center hover:bg-green-700"
+                      className="w-8 h-8 configurable-primary text-white rounded flex items-center justify-center hover:configurable-primary-hover"
                     >
                       <Plus size={14} />
                     </button>
@@ -118,7 +118,7 @@ export default function CartModal() {
                 placeholder="" 
                 className="flex-1 border border-gray-300 rounded-lg px-3 py-2" 
               />
-              <Button className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 font-medium">
+              <Button className="configurable-primary text-white px-6 py-2 rounded-lg hover:configurable-primary-hover font-medium">
                 Apply
               </Button>
             </div>
@@ -151,7 +151,7 @@ export default function CartModal() {
           
           <Button 
             onClick={handleProceedToPayment}
-            className="w-full bg-green-600 text-white py-4 text-base font-medium hover:bg-green-700 rounded-lg mt-6"
+            className="w-full configurable-primary text-white py-4 text-base font-medium hover:configurable-primary-hover rounded-lg mt-6"
             disabled={items.length === 0}
           >
             {serviceType === 'delivery' ? 'Enter Delivery Details' : 

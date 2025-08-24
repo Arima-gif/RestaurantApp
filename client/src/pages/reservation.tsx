@@ -86,7 +86,7 @@ export default function ReservationPage() {
     switch (type) {
       case 'window': return 'bg-blue-100 text-blue-800';
       case 'private': return 'bg-purple-100 text-purple-800';
-      case 'outdoor': return 'bg-green-100 text-green-800';
+      case 'outdoor': return 'configurable-secondary configurable-primary-text';
       default: return 'bg-gray-100 text-gray-800';
     }
   };
@@ -109,8 +109,8 @@ export default function ReservationPage() {
           <div className="max-w-2xl mx-auto">
             <Card className="text-center">
               <CardContent className="pt-6">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Check className="w-8 h-8 text-green-600" />
+                <div className="w-16 h-16 configurable-secondary rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Check className="w-8 h-8 configurable-primary-text" />
                 </div>
                 <h1 className="text-2xl font-bold text-gray-900 mb-2">
                   Reservation Confirmed!
@@ -167,15 +167,15 @@ export default function ReservationPage() {
 
           {/* Steps */}
           <div className="flex items-center mb-8">
-            <div className={`flex items-center ${step === 'table' ? 'text-blue-600' : 'text-green-600'}`}>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium ${step === 'table' ? 'bg-blue-600' : 'bg-green-600'}`}>
+            <div className={`flex items-center ${step === 'table' ? 'text-blue-600' : 'configurable-primary-text'}`}>
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium ${step === 'table' ? 'bg-blue-600' : 'configurable-primary'}`}>
                 {step === 'table' ? '1' : '✓'}
               </div>
               <span className="ml-2 font-medium">Select Table</span>
             </div>
             <div className="flex-1 h-px bg-gray-300 mx-4"></div>
-            <div className={`flex items-center ${step === 'details' ? 'text-blue-600' : step !== 'table' ? 'text-green-600' : 'text-gray-400'}`}>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium ${step === 'details' ? 'bg-blue-600' : step !== 'table' ? 'bg-green-600' : 'bg-gray-300'}`}>
+            <div className={`flex items-center ${step === 'details' ? 'text-blue-600' : step !== 'table' ? 'configurable-primary-text' : 'text-gray-400'}`}>
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium ${step === 'details' ? 'bg-blue-600' : step !== 'table' ? 'configurable-primary' : 'bg-gray-300'}`}>
                 {step !== 'table' && step !== 'details' ? '✓' : '2'}
               </div>
               <span className="ml-2 font-medium">Your Details</span>

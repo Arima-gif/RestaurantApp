@@ -36,21 +36,21 @@ export default function PaymentModal() {
           {/* Payment Methods */}
           <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod}>
             <div className="space-y-3">
-              <div className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-green-500">
+              <div className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg cursor-pointer hover:configurable-border">
                 <RadioGroupItem value="cash" id="cash" />
-                <Banknote className="text-green-600" size={24} />
+                <Banknote className="configurable-primary-text" size={24} />
                 <Label htmlFor="cash" className="font-medium configurable-text-primary cursor-pointer">Cash</Label>
               </div>
               
-              <div className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-green-500">
+              <div className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg cursor-pointer hover:configurable-border">
                 <RadioGroupItem value="card" id="card" />
-                <CreditCard className="text-green-600" size={24} />
+                <CreditCard className="configurable-primary-text" size={24} />
                 <Label htmlFor="card" className="font-medium configurable-text-primary cursor-pointer">Credit/Debit Card</Label>
               </div>
               
-              <div className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-green-500">
+              <div className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg cursor-pointer hover:configurable-border">
                 <RadioGroupItem value="bank" id="bank" />
-                <Building2 className="text-green-600" size={24} />
+                <Building2 className="configurable-primary-text" size={24} />
                 <Label htmlFor="bank" className="font-medium configurable-text-primary cursor-pointer">Bank Transfer</Label>
               </div>
             </div>
@@ -65,7 +65,7 @@ export default function PaymentModal() {
           <div className="space-y-3">
             <Button 
               onClick={handlePlaceOrder} 
-              className="w-full configurable-primary text-white font-bold hover:bg-green-600"
+              className="w-full configurable-primary text-white font-bold hover:configurable-primary-hover"
               disabled={!paymentMethod}
             >
               Place Order

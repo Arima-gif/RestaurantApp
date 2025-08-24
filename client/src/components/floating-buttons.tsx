@@ -26,7 +26,7 @@ export default function FloatingButtons() {
       {/* Request Service Button */}
       <Button
         onClick={() => setServiceModalOpen(true)}
-        className="w-14 h-14 configurable-primary text-white rounded-full shadow-lg hover:bg-green-600 transition-all duration-300"
+        className="w-14 h-14 configurable-primary text-white rounded-full shadow-lg hover:configurable-primary-hover transition-all duration-300"
         size="icon"
         title="Request a Service"
       >

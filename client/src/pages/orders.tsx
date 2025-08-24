@@ -127,7 +127,7 @@ export default function Orders() {
 
       {/* Food Banner */}
       <div className="relative">
-        <div className="h-32 bg-gradient-to-r from-green-500 to-green-600 relative overflow-hidden">
+        <div className="h-32 configurable-primary relative overflow-hidden">
           <div className="absolute inset-0 flex">
             <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=300&h=200&fit=crop&crop=center" alt="Pizza slice" className="w-1/6 h-full object-cover opacity-80" />
             <img src="https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?w=300&h=200&fit=crop&crop=center" alt="Pasta dish" className="w-1/6 h-full object-cover opacity-80" />
@@ -140,7 +140,7 @@ export default function Orders() {
         </div>
         
         {/* Table Indicator */}
-        <div className="absolute bottom-0 left-0 right-0 bg-green-600 text-white py-3 text-center">
+        <div className="absolute bottom-0 left-0 right-0 configurable-primary text-white py-3 text-center">
           <div className="flex items-center justify-center space-x-2">
             <Utensils size={20} />
             <span className="font-medium">You're at: TABLE #5</span>
@@ -188,7 +188,7 @@ export default function Orders() {
                       <p className="text-sm text-gray-500">{order.time}</p>
                       <p className="font-semibold text-gray-900">Order {order.orderNumber}</p>
                     </div>
-                    <Badge className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">
+                    <Badge className="configurable-secondary configurable-primary-text px-3 py-1 rounded-full text-sm">
                       {order.status}
                     </Badge>
                   </div>
@@ -221,15 +221,15 @@ export default function Orders() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center w-full">
                         {/* Order Placed - Active */}
-                        <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+                        <div className="w-8 h-8 configurable-primary rounded-full flex items-center justify-center">
                           <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                           </svg>
                         </div>
-                        <div className="flex-1 h-0.5 bg-green-600 mx-2"></div>
+                        <div className="flex-1 h-0.5 configurable-primary mx-2"></div>
                         
                         {/* Preparing - Active */}
-                        <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+                        <div className="w-8 h-8 configurable-primary rounded-full flex items-center justify-center">
                           <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                           </svg>
@@ -257,7 +257,7 @@ export default function Orders() {
                   </div>
 
                   <Button 
-                    className="w-full bg-green-600 text-white hover:bg-green-700 rounded-full py-3"
+                    className="w-full configurable-primary text-white hover:configurable-primary-hover rounded-full py-3"
                     onClick={() => setPaymentModalOpen(true)}
                   >
                     Proceed to payment
@@ -278,7 +278,7 @@ export default function Orders() {
                       <p className="text-sm text-gray-500">{order.time}</p>
                       <p className="font-semibold text-gray-900">Order {order.orderNumber}</p>
                     </div>
-                    <Badge className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">
+                    <Badge className="configurable-secondary configurable-primary-text px-3 py-1 rounded-full text-sm">
                       preparing
                     </Badge>
                   </div>
@@ -307,8 +307,8 @@ export default function Orders() {
                   </div>
 
                   {/* Order Completed Status */}
-                  <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
-                    <p className="text-green-700 font-medium text-lg">Order Completed</p>
+                  <div className="configurable-secondary border configurable-border rounded-lg p-4 text-center">
+                    <p className="configurable-primary-text font-medium text-lg">Order Completed</p>
                   </div>
                 </div>
               ))}

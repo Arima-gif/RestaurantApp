@@ -93,7 +93,7 @@ export default function ServiceRequestModal() {
                 Cancel
               </Button>
               <Button 
-                className="flex-1 configurable-primary text-white hover:bg-green-600"
+                className="flex-1 configurable-primary text-white hover:configurable-primary-hover"
                 onClick={() => handleServiceRequest("water_bottle")}
                 disabled={serviceRequestMutation.isPending}
               >
@@ -161,7 +161,7 @@ export default function ServiceRequestModal() {
                 Cancel
               </Button>
               <Button 
-                className="flex-1 configurable-primary text-white hover:bg-green-600"
+                className="flex-1 configurable-primary text-white hover:configurable-primary-hover"
                 onClick={() => handleServiceRequest("play_song")}
                 disabled={serviceRequestMutation.isPending}
               >
@@ -189,7 +189,7 @@ export default function ServiceRequestModal() {
           <div className="grid grid-cols-3 gap-4">
             <Button
               variant="outline"
-              className="flex flex-col items-center p-4 h-auto hover:border-green-500 hover:bg-green-50"
+              className="flex flex-col items-center p-4 h-auto hover:configurable-border hover:configurable-secondary"
               onClick={() => setSelectedService("water_bottle")}
             >
               <Droplets className="text-blue-500 mb-2" size={32} />
@@ -198,7 +198,7 @@ export default function ServiceRequestModal() {
             
             <Button
               variant="outline"
-              className="flex flex-col items-center p-4 h-auto hover:border-green-500 hover:bg-green-50"
+              className="flex flex-col items-center p-4 h-auto hover:configurable-border hover:configurable-secondary"
               onClick={() => setSelectedService("play_song")}
             >
               <Music className="text-purple-500 mb-2" size={32} />
@@ -207,7 +207,7 @@ export default function ServiceRequestModal() {
             
             <Button
               variant="outline"
-              className="flex flex-col items-center p-4 h-auto hover:border-green-500 hover:bg-green-50"
+              className="flex flex-col items-center p-4 h-auto hover:configurable-border hover:configurable-secondary"
               disabled
             >
               <Droplets className="text-blue-500 mb-2" size={32} />
@@ -216,7 +216,7 @@ export default function ServiceRequestModal() {
             
             <Button
               variant="outline"
-              className="flex flex-col items-center p-4 h-auto hover:border-green-500 hover:bg-green-50"
+              className="flex flex-col items-center p-4 h-auto hover:configurable-border hover:configurable-secondary"
               disabled
             >
               <Droplets className="text-blue-500 mb-2" size={32} />
@@ -225,7 +225,7 @@ export default function ServiceRequestModal() {
             
             <Button
               variant="outline"
-              className="flex flex-col items-center p-4 h-auto hover:border-green-500 hover:bg-green-50"
+              className="flex flex-col items-center p-4 h-auto hover:configurable-border hover:configurable-secondary"
               disabled
             >
               <Droplets className="text-blue-500 mb-2" size={32} />
@@ -234,7 +234,7 @@ export default function ServiceRequestModal() {
             
             <Button
               variant="outline"
-              className="flex flex-col items-center p-4 h-auto hover:border-green-500 hover:bg-green-50"
+              className="flex flex-col items-center p-4 h-auto hover:configurable-border hover:configurable-secondary"
               disabled
             >
               <Droplets className="text-blue-500 mb-2" size={32} />
@@ -244,7 +244,7 @@ export default function ServiceRequestModal() {
           
           <Button 
             onClick={() => setServiceModalOpen(false)}
-            className="w-full configurable-primary text-white hover:bg-green-600"
+            className="w-full configurable-primary text-white hover:configurable-primary-hover"
           >
             Next
           </Button>

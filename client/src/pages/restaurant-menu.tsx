@@ -85,7 +85,7 @@ export default function RestaurantMenuPage() {
   const getServiceBadge = () => {
     switch (serviceType) {
       case 'delivery':
-        return <Badge className="bg-green-500 text-white">Delivery</Badge>;
+        return <Badge className="configurable-primary text-white">Delivery</Badge>;
       case 'takeaway':
         return <Badge className="bg-blue-500 text-white">Take Away</Badge>;
       case 'dine-in':
