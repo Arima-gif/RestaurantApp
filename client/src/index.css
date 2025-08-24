@@ -134,7 +134,7 @@
   
   /* Food Specific Colors */
   .configurable-deal {
-    background-color: var(--color-food-deal);
+    background-color: var(--color-primary) !important;
   }
   
   .configurable-recommended {
@@ -160,7 +160,12 @@
   
   /* Primary text color */
   .configurable-primary-text {
-    color: var(--color-primary);
+    color: var(--color-primary) !important;
+  }
+  
+  /* Border color */
+  .configurable-border {
+    border-color: var(--color-primary) !important;
   }
   
   /* Hover effect for primary backgrounds */
