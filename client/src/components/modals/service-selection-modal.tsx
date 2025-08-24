@@ -33,8 +33,8 @@ export default function ServiceSelectionModal() {
       title: 'Delivery',
       description: 'Get food delivered to your doorstep',
       icon: Bike,
-      color: 'bg-green-50 hover:bg-green-100 border-green-200',
-      iconColor: 'text-green-600',
+      color: 'configurable-secondary hover:configurable-secondary configurable-border',
+      iconColor: 'configurable-primary-text',
     },
     {
       id: 'takeaway',

@@ -36,7 +36,7 @@ export default function ReviewModal() {
                   size={40}
                   className={`cursor-pointer transition-colors ${
                     star <= (hoveredRating || rating)
-                      ? 'text-green-500 fill-green-500'
+                      ? 'configurable-primary-text configurable-primary-text'
                       : 'text-gray-300'
                   }`}
                   onMouseEnter={() => setHoveredRating(star)}
@@ -60,7 +60,7 @@ export default function ReviewModal() {
           
           <Button 
             onClick={handleSubmitReview} 
-            className="w-full configurable-primary text-white font-bold hover:bg-green-600"
+            className="w-full configurable-primary text-white font-bold hover:configurable-primary-hover"
           >
             Submit Review & Claim Cashback
           </Button>

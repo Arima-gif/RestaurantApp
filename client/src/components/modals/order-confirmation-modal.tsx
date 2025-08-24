@@ -41,7 +41,7 @@ export default function OrderConfirmationModal() {
           <div className="space-y-3">
             <Button 
               onClick={handleTrackOrder}
-              className="w-full configurable-primary text-white hover:bg-green-600"
+              className="w-full configurable-primary text-white hover:configurable-primary-hover"
             >
               Track Order
             </Button>

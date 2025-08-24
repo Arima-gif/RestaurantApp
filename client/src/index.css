@@ -78,11 +78,11 @@
 @layer components {
   /* Primary Background Colors */
   .configurable-primary {
-    background-color: var(--color-primary);
+    background-color: var(--color-primary) !important;
   }
   
-  .configurable-primary-hover {
-    background-color: var(--color-primary-hover);
+  .configurable-primary-hover:hover {
+    background-color: var(--color-primary-hover) !important;
   }
   
   .configurable-secondary {

@@ -140,7 +140,7 @@ export default function SplitBillModal() {
           
           <Button 
             onClick={handleSendLink} 
-            className="w-full configurable-primary text-white font-bold hover:bg-green-600"
+            className="w-full configurable-primary text-white font-bold hover:configurable-primary-hover"
           >
             Send Link
           </Button>
