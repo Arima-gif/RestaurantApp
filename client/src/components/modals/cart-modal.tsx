@@ -6,7 +6,7 @@ import { useCartStore } from "@/lib/store";
 import { useCart } from "@/hooks/use-cart";
 
 export default function CartModal() {
-  const { isCartOpen, setCartOpen, setPaymentModalOpen, setDeliveryDetailsModalOpen, serviceType, removeItem } = useCartStore();
+  const { isCartOpen, setCartOpen, setPaymentModalOpen, setDeliveryDetailsModalOpen, setTakeawayDetailsModalOpen, serviceType, removeItem } = useCartStore();
   const { items, updateQuantity, clearCart, total } = useCart();
 
   const serviceCharge = 500;
@@ -19,6 +19,8 @@ export default function CartModal() {
     // For delivery orders, go to delivery details first
     if (serviceType === 'delivery') {
       setDeliveryDetailsModalOpen(true);
+    } else if (serviceType === 'takeaway') {
+      setTakeawayDetailsModalOpen(true);
     } else {
       setPaymentModalOpen(true);
     }
@@ -152,7 +154,8 @@ export default function CartModal() {
             className="w-full bg-green-600 text-white py-4 text-base font-medium hover:bg-green-700 rounded-lg mt-6"
             disabled={items.length === 0}
           >
-            {serviceType === 'delivery' ? 'Enter Delivery Details' : 'Proceed to Payment'}
+            {serviceType === 'delivery' ? 'Enter Delivery Details' : 
+             serviceType === 'takeaway' ? 'Enter Pickup Details' : 'Proceed to Payment'}
           </Button>
         </div>
       </DialogContent>

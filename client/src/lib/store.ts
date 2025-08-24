@@ -13,6 +13,14 @@ export interface DeliveryDetails {
   preferredTime?: string;
 }
 
+export interface TakeawayDetails {
+  customerName: string;
+  customerEmail: string;
+  customerPhone: string;
+  specialInstructions?: string;
+  preferredTime?: string;
+}
+
 export interface Restaurant {
   id: string;
   name: string;
@@ -45,12 +53,14 @@ interface CartStore {
   selectedRestaurant: Restaurant | null;
   userLocation: string;
   deliveryDetails: DeliveryDetails | null;
+  takeawayDetails: TakeawayDetails | null;
   isCartOpen: boolean;
   isServiceModalOpen: boolean;
   isServiceSelectionOpen: boolean;
   initialServiceOpen: boolean;
   isAddToCartModalOpen: boolean;
   isDeliveryDetailsModalOpen: boolean;
+  isTakeawayDetailsModalOpen: boolean;
   isPaymentModalOpen: boolean;
   isSplitBillModalOpen: boolean;
   isReviewModalOpen: boolean;
@@ -68,8 +78,10 @@ interface CartStore {
   setInitialServiceOpen: (open: boolean) => void;
   setAddToCartModalOpen: (open: boolean) => void;
   setDeliveryDetailsModalOpen: (open: boolean) => void;
+  setTakeawayDetailsModalOpen: (open: boolean) => void;
   setPaymentModalOpen: (open: boolean) => void;
   setDeliveryDetails: (details: DeliveryDetails | null) => void;
+  setTakeawayDetails: (details: TakeawayDetails | null) => void;
   setSplitBillModalOpen: (open: boolean) => void;
   setReviewModalOpen: (open: boolean) => void;
   setOrderConfirmationOpen: (open: boolean) => void;
@@ -87,12 +99,14 @@ export const useCartStore = create<CartStore>((set, get) => ({
   selectedRestaurant: null,
   userLocation: '',
   deliveryDetails: null,
+  takeawayDetails: null,
   isCartOpen: false,
   isServiceModalOpen: false,
   isServiceSelectionOpen: false,
   initialServiceOpen: true,
   isAddToCartModalOpen: false,
   isDeliveryDetailsModalOpen: false,
+  isTakeawayDetailsModalOpen: false,
   isPaymentModalOpen: false,
   isSplitBillModalOpen: false,
   isReviewModalOpen: false,
@@ -158,8 +172,10 @@ export const useCartStore = create<CartStore>((set, get) => ({
   setInitialServiceOpen: (open: boolean) => set({ initialServiceOpen: open }),
   setAddToCartModalOpen: (open: boolean) => set({ isAddToCartModalOpen: open }),
   setDeliveryDetailsModalOpen: (open: boolean) => set({ isDeliveryDetailsModalOpen: open }),
+  setTakeawayDetailsModalOpen: (open: boolean) => set({ isTakeawayDetailsModalOpen: open }),
   setPaymentModalOpen: (open: boolean) => set({ isPaymentModalOpen: open }),
   setDeliveryDetails: (details: DeliveryDetails | null) => set({ deliveryDetails: details }),
+  setTakeawayDetails: (details: TakeawayDetails | null) => set({ takeawayDetails: details }),
   setSplitBillModalOpen: (open: boolean) => set({ isSplitBillModalOpen: open }),
   setReviewModalOpen: (open: boolean) => set({ isReviewModalOpen: open }),
   setOrderConfirmationOpen: (open: boolean) => set({ isOrderConfirmationOpen: open }),

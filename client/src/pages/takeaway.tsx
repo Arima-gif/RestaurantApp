@@ -5,7 +5,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Star, Clock, MapPin, Search, Navigation } from "lucide-react";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Star, Clock, MapPin, Search, Navigation, Filter } from "lucide-react";
 import { useCartStore } from "@/lib/store";
 import { Restaurant } from "@/lib/mock-data";
 import { useLocation } from "wouter";
@@ -14,6 +15,7 @@ import Footer from "@/components/footer";
 
 export default function TakeawayPage() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
   const { setSelectedRestaurant, setServiceType } = useCartStore();
   const [, setLocation] = useLocation();
 
@@ -22,10 +24,17 @@ export default function TakeawayPage() {
     queryFn: getQueryFn({ on401: "throw" }),
   });
 
-  const filteredRestaurants = (restaurants as Restaurant[])?.filter((restaurant: Restaurant) =>
-    restaurant.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    restaurant.cuisine.toLowerCase().includes(searchQuery.toLowerCase())
-  ) || [];
+  // Get unique categories from restaurants
+  const cuisineTypes = (restaurants as Restaurant[])?.map(r => r.cuisine) || [];
+  const uniqueCuisines = cuisineTypes.filter((value, index, self) => self.indexOf(value) === index);
+  const categories = ["All", ...uniqueCuisines];
+
+  const filteredRestaurants = (restaurants as Restaurant[])?.filter((restaurant: Restaurant) => {
+    const matchesSearch = restaurant.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         restaurant.cuisine.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = selectedCategory === "All" || restaurant.cuisine === selectedCategory;
+    return matchesSearch && matchesCategory;
+  }) || [];
 
   const handleSelectRestaurant = (restaurant: Restaurant) => {
     setSelectedRestaurant(restaurant);
@@ -62,6 +71,34 @@ export default function TakeawayPage() {
                 placeholder="Search by name or cuisine"
                 data-testid="input-search-takeaway-restaurants"
               />
+            </div>
+          </div>
+
+          {/* Category Filters */}
+          <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+            <div className="flex items-center mb-4">
+              <Filter className="w-5 h-5 mr-2 text-gray-600" />
+              <h3 className="font-medium text-gray-900">Filter by Cuisine</h3>
+            </div>
+            <Tabs value={selectedCategory} onValueChange={setSelectedCategory} className="w-full">
+              <TabsList className="grid w-full grid-cols-3 lg:grid-cols-6">
+                {categories.map((category) => (
+                  <TabsTrigger
+                    key={category}
+                    value={category}
+                    className="text-sm"
+                    data-testid={`takeaway-filter-${category.toLowerCase().replace(/\s+/g, '-')}`}
+                  >
+                    {category}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </Tabs>
+            
+            {/* Results count */}
+            <div className="mt-4 text-sm text-gray-600">
+              {filteredRestaurants.length} restaurants found
+              {selectedCategory !== "All" && ` in ${selectedCategory}`}
             </div>
           </div>
 
