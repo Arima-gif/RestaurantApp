@@ -112,7 +112,7 @@ export default function TakeawayDetailsModal() {
 
             <div className="grid grid-cols-1 gap-4">
               <div>
-                <Label htmlFor="customerName">Full Name *</Label>
+                <Label htmlFor="customerName" className="mb-2.5 block">Full Name *</Label>
                 <Input
                   id="customerName"
                   value={details.customerName}
@@ -127,7 +127,7 @@ export default function TakeawayDetailsModal() {
               </div>
 
               <div>
-                <Label htmlFor="customerEmail">Email Address *</Label>
+                <Label htmlFor="customerEmail" className="mb-2.5 block">Email Address *</Label>
                 <Input
                   id="customerEmail"
                   type="email"
@@ -143,7 +143,7 @@ export default function TakeawayDetailsModal() {
               </div>
 
               <div>
-                <Label htmlFor="customerPhone">Phone Number *</Label>
+                <Label htmlFor="customerPhone" className="mb-2.5 block">Phone Number *</Label>
                 <Input
                   id="customerPhone"
                   type="tel"
@@ -169,7 +169,7 @@ export default function TakeawayDetailsModal() {
 
             <div className="space-y-4">
               <div>
-                <Label htmlFor="preferredTime">Preferred Pickup Time</Label>
+                <Label htmlFor="preferredTime" className="mb-2.5 block">Preferred Pickup Time</Label>
                 <Input
                   id="preferredTime"
                   type="time"
@@ -183,7 +183,7 @@ export default function TakeawayDetailsModal() {
               </div>
 
               <div>
-                <Label htmlFor="specialInstructions">Special Instructions</Label>
+                <Label htmlFor="specialInstructions" className="mb-2.5 block">Special Instructions</Label>
                 <Textarea
                   id="specialInstructions"
                   value={details.specialInstructions}

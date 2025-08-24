@@ -114,7 +114,7 @@ export default function DeliveryDetailsModal() {
 
             <div className="grid grid-cols-1 gap-4">
               <div>
-                <Label htmlFor="customerName">Full Name *</Label>
+                <Label htmlFor="customerName" className="mb-2.5 block">Full Name *</Label>
                 <Input
                   id="customerName"
                   value={details.customerName}
@@ -129,7 +129,7 @@ export default function DeliveryDetailsModal() {
               </div>
 
               <div>
-                <Label htmlFor="customerEmail">Email Address *</Label>
+                <Label htmlFor="customerEmail" className="mb-2.5 block">Email Address *</Label>
                 <Input
                   id="customerEmail"
                   type="email"
@@ -145,7 +145,7 @@ export default function DeliveryDetailsModal() {
               </div>
 
               <div>
-                <Label htmlFor="customerPhone">Phone Number *</Label>
+                <Label htmlFor="customerPhone" className="mb-2.5 block">Phone Number *</Label>
                 <Input
                   id="customerPhone"
                   type="tel"
@@ -171,7 +171,7 @@ export default function DeliveryDetailsModal() {
 
             <div className="space-y-4">
               <div>
-                <Label htmlFor="deliveryAddress">Street Address *</Label>
+                <Label htmlFor="deliveryAddress" className="mb-2.5 block">Street Address *</Label>
                 <Textarea
                   id="deliveryAddress"
                   value={details.deliveryAddress}
@@ -187,7 +187,7 @@ export default function DeliveryDetailsModal() {
               </div>
 
               <div>
-                <Label htmlFor="apartmentUnit">Apartment/Unit Number</Label>
+                <Label htmlFor="apartmentUnit" className="mb-2.5 block">Apartment/Unit Number</Label>
                 <Input
                   id="apartmentUnit"
                   value={details.apartmentUnit}
@@ -198,7 +198,7 @@ export default function DeliveryDetailsModal() {
               </div>
 
               <div>
-                <Label htmlFor="deliveryInstructions">Delivery Instructions</Label>
+                <Label htmlFor="deliveryInstructions" className="mb-2.5 block">Delivery Instructions</Label>
                 <Textarea
                   id="deliveryInstructions"
                   value={details.deliveryInstructions}
@@ -210,7 +210,7 @@ export default function DeliveryDetailsModal() {
               </div>
 
               <div>
-                <Label htmlFor="preferredTime">Preferred Delivery Time</Label>
+                <Label htmlFor="preferredTime" className="mb-2.5 block">Preferred Delivery Time</Label>
                 <Input
                   id="preferredTime"
                   type="time"

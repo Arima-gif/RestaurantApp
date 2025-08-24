@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { X, ChevronUp, ChevronDown, Minus, Plus } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,20 @@ export default function AddToCartModal() {
   const [selectedSauce, setSelectedSauce] = useState("");
   const [selectedCrust, setSelectedCrust] = useState("");
   const [allergens, setAllergens] = useState("");
+  
+  // Reset selections when modal opens or closes
+  useEffect(() => {
+    if (!isAddToCartModalOpen) {
+      // Clear all selections when modal is closed
+      setQuantity(1);
+      setSelectedToppings({});
+      setSelectedFlavour("");
+      setSelectedSauce("");
+      setSelectedCrust("");
+      setSpecialInstructions("");
+      setAllergens("");
+    }
+  }, [isAddToCartModalOpen]);
   
   // Collapsible states
   const [toppingsOpen, setToppingsOpen] = useState(true);
