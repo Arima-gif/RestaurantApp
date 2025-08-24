@@ -8,7 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowLeft, Star, Clock, MapPin, DollarSign } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { ArrowLeft, Star, Clock, MapPin, DollarSign, Search, ChevronLeft, ChevronRight } from "lucide-react";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import FoodCard from "@/components/food-card";
@@ -25,6 +26,9 @@ export default function RestaurantMenuPage() {
   const { selectedRestaurant, serviceType, getCartCount } = useCartStore();
   const [, setLocation] = useLocation();
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
 
   const { data: menuItems, isLoading } = useQuery({
     queryKey: ['/api/menu-items'],
@@ -40,9 +44,30 @@ export default function RestaurantMenuPage() {
   const uniqueCategories = categoryList.filter((value, index, self) => self.indexOf(value) === index);
   const categories = ["all", ...uniqueCategories];
   
-  const filteredItems = (menuItems as MenuItem[])?.filter((item: MenuItem) => 
-    selectedCategory === "all" || item.category === selectedCategory
+  // Filter items by category and search
+  const filteredItems = (menuItems as MenuItem[])?.filter((item: MenuItem) => {
+    const matchesCategory = selectedCategory === "all" || item.category === selectedCategory;
+    const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         item.description.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesCategory && matchesSearch;
+  }) || [];
+
+  // Get recommended items (items with high ratings)
+  const recommendedItems = (menuItems as MenuItem[])?.filter((item: MenuItem) => 
+    item.isRecommended
   ) || [];
+
+  // Get deal items (items with discounts)
+  const dealItems = (menuItems as MenuItem[])?.filter((item: MenuItem) => 
+    item.discount && item.discount > 0
+  ) || [];
+
+  // Pagination
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+  const paginatedItems = filteredItems.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   const handleBack = () => {
     switch (serviceType) {
@@ -114,8 +139,7 @@ export default function RestaurantMenuPage() {
     <div className="min-h-screen bg-gray-50">
       <Navbar />
       
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Back Button */}
           <div className="mb-6">
             <Button
@@ -150,7 +174,7 @@ export default function RestaurantMenuPage() {
                           <Star className="w-4 h-4 mr-1 fill-yellow-400 text-yellow-400" />
                           <span className="font-medium">{selectedRestaurant.rating}</span>
                         </div>
-                        <Badge variant="outline">{selectedRestaurant.cuisine}</Badge>
+                        <Badge variant="outline">{(selectedRestaurant as any).cuisine || 'Restaurant'}</Badge>
                         {getServiceBadge()}
                       </div>
                     </div>
@@ -170,51 +194,129 @@ export default function RestaurantMenuPage() {
             </CardContent>
           </Card>
 
-          {/* Category Filter */}
-          <div className="mb-6">
-            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger className="w-full md:w-64" data-testid="select-category">
-                <SelectValue placeholder="Filter by category" />
-              </SelectTrigger>
-              <SelectContent>
-                {categories.map((category) => (
-                  <SelectItem key={category} value={category}>
-                    {category === "all" ? "All Categories" : category}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+        {/* Recommended Section */}
+        {recommendedItems.length > 0 && (
+          <section className="mb-12">
+            <h2 className="text-2xl font-bold configurable-text-primary mb-6">Recommended</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {recommendedItems.slice(0, 4).map((item) => (
+                <FoodCard key={item.id} item={item} variant="grid" />
+              ))}
+            </div>
+          </section>
+        )}
 
-          {/* Menu Items */}
-          {isLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[1, 2, 3, 4, 5, 6].map((i) => (
+        {/* Menu Filters */}
+        <section className="mb-8">
+          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                <SelectTrigger className="w-48">
+                  <SelectValue placeholder="All Categories" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Categories</SelectItem>
+                  {uniqueCategories.map((category) => (
+                    <SelectItem key={category} value={category}>
+                      {category.charAt(0).toUpperCase() + category.slice(1)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex items-center space-x-2 w-full sm:w-auto">
+              <div className="relative flex-1 sm:w-80">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <Input
+                  type="text"
+                  placeholder="Search..."
+                  className="pl-10"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Menu Items */}
+        <section className="mb-12">
+          <div className="space-y-4">
+            {isLoading ? (
+              Array.from({ length: itemsPerPage }, (_, i) => (
                 <Card key={i} className="animate-pulse">
-                  <CardContent className="p-6">
-                    <div className="h-48 bg-gray-200 rounded-lg mb-4"></div>
+                  <CardContent className="p-4">
+                    <div className="h-32 bg-gray-200 rounded-lg mb-4"></div>
                     <div className="h-4 bg-gray-200 rounded mb-2"></div>
                     <div className="h-4 bg-gray-200 rounded w-2/3"></div>
                   </CardContent>
                 </Card>
-              ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredItems.map((item: MenuItem) => (
-                <FoodCard key={item.id} item={item} />
-              ))}
+              ))
+            ) : (
+              paginatedItems.map((item: MenuItem) => (
+                <FoodCard key={item.id} item={item} variant="list" />
+              ))
+            )}
+          </div>
+          
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-center space-x-2 mt-8">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                disabled={currentPage === 1}
+              >
+                <ChevronLeft size={16} />
+              </Button>
+              
+              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                const pageNum = i + 1;
+                return (
+                  <Button
+                    key={pageNum}
+                    variant={currentPage === pageNum ? "default" : "ghost"}
+                    size="icon"
+                    className={currentPage === pageNum ? "configurable-primary text-white" : ""}
+                    onClick={() => setCurrentPage(pageNum)}
+                  >
+                    {pageNum}
+                  </Button>
+                );
+              })}
+              
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                disabled={currentPage === totalPages}
+              >
+                <ChevronRight size={16} />
+              </Button>
             </div>
           )}
+        </section>
 
-          {filteredItems.length === 0 && !isLoading && (
-            <div className="text-center py-12">
-              <p className="text-gray-500 text-lg">
-                No items found in this category.
-              </p>
+        {/* Deals Section */}
+        {dealItems.length > 0 && (
+          <section className="mb-12">
+            <h2 className="text-2xl font-bold configurable-text-primary mb-6">Deals</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {dealItems.map((item) => (
+                <FoodCard key={item.id} item={item} variant="grid" />
+              ))}
             </div>
-          )}
-        </div>
+          </section>
+        )}
+
+        {filteredItems.length === 0 && !isLoading && (
+          <div className="text-center py-12">
+            <p className="text-gray-500 text-lg">
+              No items found matching your search.
+            </p>
+          </div>
+        )}
       </div>
 
       <Footer />
