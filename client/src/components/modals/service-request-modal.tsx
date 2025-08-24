@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Droplets, Music, X } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -73,6 +73,9 @@ export default function ServiceRequestModal() {
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle className="text-xl font-bold configurable-text-primary">Water Bottle</DialogTitle>
+            <DialogDescription className="configurable-text-secondary">
+              Request a complimentary water bottle
+            </DialogDescription>
           </DialogHeader>
           
           <div className="text-center space-y-6">
@@ -112,6 +115,9 @@ export default function ServiceRequestModal() {
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle className="text-xl font-bold configurable-text-primary">Play a Song</DialogTitle>
+            <DialogDescription className="configurable-text-secondary">
+              Request a song to be added to the playlist
+            </DialogDescription>
           </DialogHeader>
           
           <div className="text-center space-y-6">
@@ -173,6 +179,9 @@ export default function ServiceRequestModal() {
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold configurable-text-primary">Request a Service</DialogTitle>
+          <DialogDescription className="configurable-text-secondary">
+            Choose from available services for your table
+          </DialogDescription>
         </DialogHeader>
         
         <div className="space-y-6">

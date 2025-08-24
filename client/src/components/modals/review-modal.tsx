@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Star } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useCartStore } from "@/lib/store";
@@ -21,6 +21,9 @@ export default function ReviewModal() {
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold configurable-text-primary">Rate Your Experience</DialogTitle>
+          <DialogDescription className="configurable-text-secondary">
+            Share your feedback to help us improve
+          </DialogDescription>
         </DialogHeader>
         
         <div className="space-y-6">

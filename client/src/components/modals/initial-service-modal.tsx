@@ -1,4 +1,4 @@
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/lib/store";
 import { UtensilsCrossed, MoreHorizontal } from "lucide-react";
@@ -19,15 +19,15 @@ export default function InitialServiceModal() {
   return (
     <Dialog open={initialServiceOpen} onOpenChange={() => {}}>
       <DialogContent className="sm:max-w-md [&>button]:hidden">
+        <DialogHeader className="text-center">
+          <DialogTitle className="text-2xl font-bold text-gray-900">
+            Welcome!
+          </DialogTitle>
+          <DialogDescription className="text-gray-600">
+            How would you like to order today?
+          </DialogDescription>
+        </DialogHeader>
         <div className="text-center space-y-6 py-4">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">
-              Welcome!
-            </h2>
-            <p className="text-gray-600">
-              How would you like to order today?
-            </p>
-          </div>
 
           <div className="space-y-4">
             <Button

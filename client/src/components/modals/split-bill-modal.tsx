@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Minus, Plus } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -39,6 +39,9 @@ export default function SplitBillModal() {
       <DialogContent className="max-w-md max-h-[80vh]">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold configurable-text-primary">Split Bill</DialogTitle>
+          <DialogDescription className="configurable-text-secondary">
+            Divide the bill between multiple people
+          </DialogDescription>
         </DialogHeader>
         
         <ScrollArea className="max-h-[60vh] pr-4">

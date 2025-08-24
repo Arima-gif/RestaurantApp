@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { CreditCard, Banknote, Building2 } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
@@ -27,6 +27,9 @@ export default function PaymentModal() {
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold configurable-text-primary">Select Payment Method</DialogTitle>
+          <DialogDescription className="configurable-text-secondary">
+            Choose how you would like to pay for your order
+          </DialogDescription>
         </DialogHeader>
         
         <div className="space-y-6">
@@ -55,7 +58,7 @@ export default function PaymentModal() {
           
           {/* Split Bill Option */}
           <div className="flex items-center space-x-3">
-            <Checkbox id="split" checked={splitBill} onCheckedChange={setSplitBill} />
+            <Checkbox id="split" checked={splitBill} onCheckedChange={(checked) => setSplitBill(checked === true)} />
             <Label htmlFor="split" className="font-medium configurable-text-primary">Do you want to split?</Label>
           </div>
           

@@ -35,7 +35,9 @@ export default function RestaurantMenuPage() {
     return null;
   }
 
-  const categories = ["all", ...((menuItems as MenuItem[]) ? Array.from(new Set((menuItems as MenuItem[]).map((item: MenuItem) => item.category))) : [])];
+  const categoryList = (menuItems as MenuItem[])?.map((item: MenuItem) => item.category) || [];
+  const uniqueCategories = categoryList.filter((value, index, self) => self.indexOf(value) === index);
+  const categories = ["all", ...uniqueCategories];
   
   const filteredItems = (menuItems as MenuItem[])?.filter((item: MenuItem) => 
     selectedCategory === "all" || item.category === selectedCategory
