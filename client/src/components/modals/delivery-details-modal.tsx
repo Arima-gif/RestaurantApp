@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { MapPin, User, Mail, Phone, Clock, Navigation, Map, Upload } from "lucide-react";
+import { MapPin, User, Mail, Phone, Clock, Navigation, Map } from "lucide-react";
 import { useCartStore } from "@/lib/store";
 import MapPickerModal from "./map-picker-modal";
 
@@ -156,15 +156,6 @@ export default function DeliveryDetailsModal() {
     setShowMap(false);
   };
 
-  // Handle file upload for location sharing
-  const handleLocationUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      // For demo purposes, we'll simulate processing a location file
-      // In a real app, you'd parse GPX, KML, or other location formats
-      alert('Location file uploaded successfully. Feature coming soon!');
-    }
-  };
 
   return (
     <Dialog open={isDeliveryDetailsModalOpen} onOpenChange={setDeliveryDetailsModalOpen}>
@@ -260,7 +251,7 @@ export default function DeliveryDetailsModal() {
 
             <div className="space-y-4">
               {/* Location Options */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-4">
                 <Button
                   type="button"
                   variant="outline"
@@ -285,28 +276,6 @@ export default function DeliveryDetailsModal() {
                   <Map className="w-4 h-4" />
                   Pick on Map
                 </Button>
-                
-                <div className="relative">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className="flex items-center justify-center gap-2 w-full"
-                    onClick={() => document.getElementById('location-upload')?.click()}
-                    data-testid="button-upload-location"
-                  >
-                    <Upload className="w-4 h-4" />
-                    Upload Location
-                  </Button>
-                  <input
-                    id="location-upload"
-                    type="file"
-                    accept=".gpx,.kml,.json"
-                    onChange={handleLocationUpload}
-                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                    data-testid="input-location-upload"
-                  />
-                </div>
               </div>
 
               {/* Show coordinates if available */}
