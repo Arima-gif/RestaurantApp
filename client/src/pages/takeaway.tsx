@@ -61,7 +61,7 @@ export default function TakeawayPage() {
           {/* Search */}
           <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
             <div className="max-w-md">
-              <label className="flex items-center justify-center text-sm font-medium text-gray-700 mb-2">
+              <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
                 <Search className="w-4 h-4 mr-1 text-green-600" />
                 Search Restaurants
               </label>
@@ -76,7 +76,7 @@ export default function TakeawayPage() {
 
           {/* Category Filters */}
           <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-            <div className="flex items-center justify-center mb-4">
+            <div className="flex items-center mb-4">
               <Filter className="w-5 h-5 mr-2 text-green-600" />
               <h3 className="font-medium text-gray-900">Filter by Cuisine</h3>
             </div>

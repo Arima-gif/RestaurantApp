@@ -145,7 +145,7 @@ export default function RestaurantMenuPage() {
             <Button
               variant="outline"
               onClick={handleBack}
-              className="flex items-center justify-center"
+              className="flex items-center"
               data-testid="button-back-to-restaurants"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
@@ -169,8 +169,8 @@ export default function RestaurantMenuPage() {
                       <h1 className="text-2xl font-bold text-gray-900 mb-2">
                         {selectedRestaurant.name}
                       </h1>
-                      <div className="flex items-center justify-center gap-3 mb-2">
-                        <div className="flex items-center justify-center">
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="flex items-center">
                           <Star className="w-4 h-4 mr-1 fill-yellow-400 text-yellow-400" />
                           <span className="font-medium">{selectedRestaurant.rating}</span>
                         </div>
@@ -209,7 +209,7 @@ export default function RestaurantMenuPage() {
         {/* Menu Filters */}
         <section className="mb-8">
           <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-            <div className="flex items-center justify-center space-x-4">
+            <div className="flex items-center space-x-4">
               <Select value={selectedCategory} onValueChange={setSelectedCategory}>
                 <SelectTrigger className="w-48">
                   <SelectValue placeholder="All Categories" />
@@ -224,7 +224,7 @@ export default function RestaurantMenuPage() {
                 </SelectContent>
               </Select>
             </div>
-            <div className="flex items-center justify-center space-x-2 w-full sm:w-auto">
+            <div className="flex items-center space-x-2 w-full sm:w-auto">
               <div className="relative flex-1 sm:w-80">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
                 <Input
