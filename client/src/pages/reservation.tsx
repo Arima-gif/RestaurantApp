@@ -115,7 +115,7 @@ export default function ReservationPage() {
 
   const getTableTypeColor = (type: string) => {
     switch (type) {
-      case 'window': return 'bg-blue-100 text-blue-800';
+      case 'window': return 'configurable-secondary configurable-primary-text';
       case 'private': return 'bg-purple-100 text-purple-800';
       case 'outdoor': return 'configurable-secondary configurable-primary-text';
       default: return 'bg-gray-100 text-gray-800';
@@ -200,22 +200,22 @@ export default function ReservationPage() {
 
           {/* Steps */}
           <div className="flex items-center mb-8">
-            <div className={`flex items-center ${step === 'restaurant' ? 'text-blue-600' : 'configurable-primary-text'}`}>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium ${step === 'restaurant' ? 'bg-blue-600' : 'configurable-primary'}`}>
+            <div className={`flex items-center ${step === 'restaurant' ? 'configurable-primary-text' : 'configurable-primary-text'}`}>
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium ${step === 'restaurant' ? 'configurable-primary' : 'configurable-primary'}`}>
                 {step === 'restaurant' ? '1' : '✓'}
               </div>
               <span className="ml-2 font-medium">Select Restaurant</span>
             </div>
             <div className="flex-1 h-px bg-gray-300 mx-2"></div>
-            <div className={`flex items-center ${step === 'table' ? 'text-blue-600' : step !== 'restaurant' && step !== 'table' ? 'configurable-primary-text' : 'text-gray-400'}`}>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium ${step === 'table' ? 'bg-blue-600' : step !== 'restaurant' && step !== 'table' ? 'configurable-primary' : 'bg-gray-300'}`}>
+            <div className={`flex items-center ${step === 'table' ? 'configurable-primary-text' : step !== 'restaurant' && step !== 'table' ? 'configurable-primary-text' : 'text-gray-400'}`}>
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium ${step === 'table' ? 'configurable-primary' : step !== 'restaurant' && step !== 'table' ? 'configurable-primary' : 'bg-gray-300'}`}>
                 {step !== 'restaurant' && step !== 'table' && step !== 'details' ? '✓' : '2'}
               </div>
               <span className="ml-2 font-medium">Select Table</span>
             </div>
             <div className="flex-1 h-px bg-gray-300 mx-2"></div>
-            <div className={`flex items-center ${step === 'details' ? 'text-blue-600' : step !== 'restaurant' && step !== 'table' && step !== 'details' ? 'configurable-primary-text' : 'text-gray-400'}`}>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium ${step === 'details' ? 'bg-blue-600' : step !== 'restaurant' && step !== 'table' && step !== 'details' ? 'configurable-primary' : 'bg-gray-300'}`}>
+            <div className={`flex items-center ${step === 'details' ? 'configurable-primary-text' : step !== 'restaurant' && step !== 'table' && step !== 'details' ? 'configurable-primary-text' : 'text-gray-400'}`}>
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium ${step === 'details' ? 'configurable-primary' : step !== 'restaurant' && step !== 'table' && step !== 'details' ? 'configurable-primary' : 'bg-gray-300'}`}>
                 {step !== 'restaurant' && step !== 'table' && step !== 'details' ? '✓' : '3'}
               </div>
               <span className="ml-2 font-medium">Your Details</span>
@@ -308,7 +308,7 @@ export default function ReservationPage() {
                                 </Badge>
                               </div>
                               <div className="absolute top-3 left-3">
-                                <Badge className="bg-purple-500 text-white">
+                                <Badge className="configurable-primary text-white">
                                   Reservation
                                 </Badge>
                               </div>
@@ -338,7 +338,7 @@ export default function ReservationPage() {
                               <div className="pt-2 border-t border-gray-100">
                                 <Button 
                                   size="sm" 
-                                  className="w-full bg-purple-500 text-white hover:bg-purple-600"
+                                  className="w-full configurable-primary text-white configurable-primary-hover"
                                   data-testid={`button-reservation-select-${restaurant.id}`}
                                 >
                                   Book Table
