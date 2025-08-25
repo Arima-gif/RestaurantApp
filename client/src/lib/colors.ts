@@ -76,6 +76,9 @@ export const applyColors = (colors: ColorConfig) => {
   root.style.setProperty('--color-secondary', colors.secondary);
   root.style.setProperty('--color-accent', colors.accent);
   
+  // Update focus ring color to match theme
+  root.style.setProperty('--ring', colors.primary);
+  
   // Background colors
   root.style.setProperty('--color-background', colors.background);
   root.style.setProperty('--color-surface', colors.surface);
