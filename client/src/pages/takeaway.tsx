@@ -6,17 +6,22 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Star, Clock, MapPin, Search, Navigation, Filter } from "lucide-react";
+import { Star, Clock, MapPin, Search, Navigation, Filter, Map } from "lucide-react";
 import { useCartStore } from "@/lib/store";
 import { Restaurant } from "@/lib/mock-data";
 import { useLocation } from "wouter";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import ThemeSwitcher from "@/components/theme-switcher";
+import MapPickerModal from "@/components/modals/map-picker-modal";
 
 export default function TakeawayPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [userLocation, setUserLocation] = useState("Downtown");
+  const [userCoords, setUserCoords] = useState<{lat: number, lng: number} | null>(null);
+  const [isLoadingLocation, setIsLoadingLocation] = useState(false);
+  const [showMap, setShowMap] = useState(false);
   const { setSelectedRestaurant, setServiceType } = useCartStore();
   const [, setLocation] = useLocation();
 
@@ -43,6 +48,60 @@ export default function TakeawayPage() {
     setLocation('/restaurant-menu');
   };
 
+  // Get current location
+  const getCurrentLocation = () => {
+    setIsLoadingLocation(true);
+    
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          
+          try {
+            // Reverse geocoding to get address
+            const response = await fetch(
+              `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw`
+            );
+            const data = await response.json();
+            
+            if (data.features && data.features[0]) {
+              const address = data.features[0].place_name;
+              setUserLocation(address);
+            }
+            setUserCoords({ lat, lng });
+          } catch (error) {
+            console.error('Error getting address:', error);
+            setUserCoords({ lat, lng });
+          }
+          
+          setIsLoadingLocation(false);
+        },
+        (error) => {
+          console.error('Error getting location:', error);
+          setIsLoadingLocation(false);
+          alert('Unable to get your location. Please enter address manually.');
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+      );
+    } else {
+      setIsLoadingLocation(false);
+      alert('Geolocation is not supported by this browser.');
+    }
+  };
+
+  // Handle map location selection
+  const handleMapLocationSelect = () => {
+    setShowMap(true);
+  };
+
+  // Handle location selection from map
+  const handleLocationFromMap = (lat: number, lng: number, address: string) => {
+    setUserLocation(address);
+    setUserCoords({ lat, lng });
+    setShowMap(false);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
@@ -58,19 +117,72 @@ export default function TakeawayPage() {
             </p>
           </div>
 
-          {/* Search */}
+          {/* Location and Search */}
           <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-            <div className="max-w-md">
-              <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
-                <Search className="w-4 h-4 mr-1 text-green-600" />
-                Search Restaurants
-              </label>
-              <Input
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search by name or cuisine"
-                data-testid="input-search-takeaway-restaurants"
-              />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
+                  <MapPin className="w-4 h-4 mr-1 text-green-600" />
+                  Pickup Location
+                </label>
+                
+                {/* Location Options */}
+                <div className="grid grid-cols-2 gap-2 mb-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={getCurrentLocation}
+                    disabled={isLoadingLocation}
+                    className="flex items-center justify-center gap-2"
+                    data-testid="button-current-location-takeaway"
+                  >
+                    <Navigation className="w-4 h-4 text-green-600" />
+                    {isLoadingLocation ? 'Getting...' : 'Current Location'}
+                  </Button>
+                  
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={handleMapLocationSelect}
+                    className="flex items-center justify-center gap-2"
+                    data-testid="button-map-location-takeaway"
+                  >
+                    <Map className="w-4 h-4 text-green-600" />
+                    Pick on Map
+                  </Button>
+                </div>
+
+                {/* Show coordinates if available */}
+                {userCoords && (
+                  <div className="bg-green-50 p-2 rounded-md border border-green-200 mb-2">
+                    <div className="flex items-center text-green-800 text-xs">
+                      <MapPin className="w-3 h-3 mr-1" />
+                      <span>Location set: {userCoords.lat.toFixed(4)}, {userCoords.lng.toFixed(4)}</span>
+                    </div>
+                  </div>
+                )}
+                
+                <Input
+                  value={userLocation}
+                  onChange={(e) => setUserLocation(e.target.value)}
+                  placeholder="Enter your location or use options above"
+                  data-testid="input-takeaway-location"
+                />
+              </div>
+              <div>
+                <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
+                  <Search className="w-4 h-4 mr-1 text-green-600" />
+                  Search Restaurants
+                </label>
+                <Input
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search by name or cuisine"
+                  data-testid="input-search-takeaway-restaurants"
+                />
+              </div>
             </div>
           </div>
 
@@ -202,6 +314,15 @@ export default function TakeawayPage() {
 
       <Footer />
       <ThemeSwitcher />
+      
+      {/* Map Picker Modal */}
+      <MapPickerModal
+        isOpen={showMap}
+        onClose={() => setShowMap(false)}
+        onLocationSelect={handleLocationFromMap}
+        initialLat={userCoords?.lat}
+        initialLng={userCoords?.lng}
+      />
     </div>
   );
 }

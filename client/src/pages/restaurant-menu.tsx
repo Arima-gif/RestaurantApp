@@ -21,6 +21,7 @@ import PaymentModal from "@/components/modals/payment-modal";
 import SplitBillModal from "@/components/modals/split-bill-modal";
 import ReviewModal from "@/components/modals/review-modal";
 import OrderConfirmationModal from "@/components/modals/order-confirmation-modal";
+import ThemeSwitcher from "@/components/theme-switcher";
 
 export default function RestaurantMenuPage() {
   const { selectedRestaurant, serviceType, getCartCount } = useCartStore();
@@ -138,6 +139,45 @@ export default function RestaurantMenuPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
+      
+      {/* Service Banner */}
+      <div className="relative">
+        <div className="h-32 md:h-40 relative overflow-hidden configurable-primary">
+          <div className="absolute inset-0 flex">
+            <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200" alt="Pizza slice" className="w-1/6 h-full object-cover opacity-80" />
+            <img src="https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200" alt="Pasta dish" className="w-1/6 h-full object-cover opacity-80" />
+            <img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200" alt="Salad bowl" className="w-1/6 h-full object-cover opacity-80" />
+            <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200" alt="Pancakes" className="w-1/6 h-full object-cover opacity-80" />
+            <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200" alt="Burger" className="w-1/6 h-full object-cover opacity-80" />
+            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200" alt="Salad" className="w-1/6 h-full object-cover opacity-80" />
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-r from-green-500/70 to-green-600/70"></div>
+        </div>
+        
+        {/* Service Type Indicator */}
+        <div className="absolute bottom-0 left-0 right-0 configurable-primary text-white py-3">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+            {serviceType === 'delivery' && (
+              <>
+                <DollarSign className="mr-3" size={20} />
+                <span className="text-lg font-medium">Delivery Service - {selectedRestaurant.name}</span>
+              </>
+            )}
+            {serviceType === 'takeaway' && (
+              <>
+                <Clock className="mr-3" size={20} />
+                <span className="text-lg font-medium">Takeaway Order - {selectedRestaurant.name}</span>
+              </>
+            )}
+            {(serviceType === 'dine-in' || !serviceType) && (
+              <>
+                <MapPin className="mr-3" size={20} />
+                <span className="text-lg font-medium">Dine In Menu - {selectedRestaurant.name}</span>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Back Button */}
@@ -320,6 +360,7 @@ export default function RestaurantMenuPage() {
       </div>
 
       <Footer />
+      <ThemeSwitcher />
 
       {/* Cart indicator */}
       {getCartCount() > 0 && (

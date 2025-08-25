@@ -7,14 +7,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Clock, Users, MapPin, Check } from "lucide-react";
+import { Calendar, Clock, Users, MapPin, Check, Search, Filter, Star } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { Table } from "@/lib/mock-data";
+import { Table, Restaurant } from "@/lib/mock-data";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import ThemeSwitcher from "@/components/theme-switcher";
 
 export default function ReservationPage() {
+  const [selectedRestaurant, setSelectedRestaurant] = useState<Restaurant | null>(null);
   const [selectedTable, setSelectedTable] = useState<Table | null>(null);
   const [guests, setGuests] = useState(2);
   const [customerName, setCustomerName] = useState("");
@@ -23,13 +25,21 @@ export default function ReservationPage() {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [specialRequests, setSpecialRequests] = useState("");
-  const [step, setStep] = useState<'table' | 'details' | 'confirmation'>('table');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [step, setStep] = useState<'restaurant' | 'table' | 'details' | 'confirmation'>('restaurant');
   const [reservationId, setReservationId] = useState<string | null>(null);
   const { toast } = useToast();
 
-  const { data: tables, isLoading } = useQuery({
+  const { data: restaurants, isLoading: isLoadingRestaurants } = useQuery({
+    queryKey: ['/api/restaurants'],
+    queryFn: getQueryFn({ on401: "throw" }),
+  });
+
+  const { data: tables, isLoading: isLoadingTables } = useQuery({
     queryKey: ['/api/tables', guests.toString()],
     queryFn: getQueryFn({ on401: "throw" }),
+    enabled: !!selectedRestaurant,
   });
 
   const reservationMutation = useMutation({
@@ -55,10 +65,28 @@ export default function ReservationPage() {
     },
   });
 
+  const handleRestaurantSelect = (restaurant: Restaurant) => {
+    setSelectedRestaurant(restaurant);
+    setStep('table');
+  };
+
   const handleTableSelect = (table: Table) => {
     setSelectedTable(table);
     setStep('details');
   };
+
+  // Filter restaurants
+  const filteredRestaurants = (restaurants as Restaurant[])?.filter((restaurant: Restaurant) => {
+    const matchesSearch = restaurant.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         restaurant.cuisine.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = selectedCategory === "All" || restaurant.cuisine === selectedCategory;
+    return matchesSearch && matchesCategory;
+  }) || [];
+
+  // Get unique categories from restaurants
+  const cuisineTypes = (restaurants as Restaurant[])?.map(r => r.cuisine) || [];
+  const uniqueCuisines = cuisineTypes.filter((value, index, self) => self.indexOf(value) === index);
+  const categories = ["All", ...uniqueCuisines];
 
   const handleSubmitReservation = () => {
     if (!selectedTable || !customerName || !customerPhone || !date || !time) {
@@ -77,6 +105,8 @@ export default function ReservationPage() {
       date,
       time,
       guests,
+      restaurantId: selectedRestaurant.id,
+      restaurantName: selectedRestaurant.name,
       tableId: selectedTable.id,
       specialRequests,
       status: 'confirmed',
@@ -128,6 +158,7 @@ export default function ReservationPage() {
                     <div><strong>Date:</strong> {date}</div>
                     <div><strong>Time:</strong> {time}</div>
                     <div><strong>Guests:</strong> {guests}</div>
+                    <div><strong>Restaurant:</strong> {selectedRestaurant?.name}</div>
                     <div><strong>Table:</strong> {selectedTable?.number} ({selectedTable?.type})</div>
                     {specialRequests && (
                       <div><strong>Special Requests:</strong> {specialRequests}</div>
@@ -169,22 +200,170 @@ export default function ReservationPage() {
 
           {/* Steps */}
           <div className="flex items-center mb-8">
-            <div className={`flex items-center ${step === 'table' ? 'text-blue-600' : 'configurable-primary-text'}`}>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium ${step === 'table' ? 'bg-blue-600' : 'configurable-primary'}`}>
-                {step === 'table' ? '1' : '✓'}
+            <div className={`flex items-center ${step === 'restaurant' ? 'text-blue-600' : 'configurable-primary-text'}`}>
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium ${step === 'restaurant' ? 'bg-blue-600' : 'configurable-primary'}`}>
+                {step === 'restaurant' ? '1' : '✓'}
+              </div>
+              <span className="ml-2 font-medium">Select Restaurant</span>
+            </div>
+            <div className="flex-1 h-px bg-gray-300 mx-2"></div>
+            <div className={`flex items-center ${step === 'table' ? 'text-blue-600' : step !== 'restaurant' && step !== 'table' ? 'configurable-primary-text' : 'text-gray-400'}`}>
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium ${step === 'table' ? 'bg-blue-600' : step !== 'restaurant' && step !== 'table' ? 'configurable-primary' : 'bg-gray-300'}`}>
+                {step !== 'restaurant' && step !== 'table' && step !== 'details' ? '✓' : '2'}
               </div>
               <span className="ml-2 font-medium">Select Table</span>
             </div>
-            <div className="flex-1 h-px bg-gray-300 mx-4"></div>
-            <div className={`flex items-center ${step === 'details' ? 'text-blue-600' : step !== 'table' ? 'configurable-primary-text' : 'text-gray-400'}`}>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium ${step === 'details' ? 'bg-blue-600' : step !== 'table' ? 'configurable-primary' : 'bg-gray-300'}`}>
-                {step !== 'table' && step !== 'details' ? '✓' : '2'}
+            <div className="flex-1 h-px bg-gray-300 mx-2"></div>
+            <div className={`flex items-center ${step === 'details' ? 'text-blue-600' : step !== 'restaurant' && step !== 'table' && step !== 'details' ? 'configurable-primary-text' : 'text-gray-400'}`}>
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium ${step === 'details' ? 'bg-blue-600' : step !== 'restaurant' && step !== 'table' && step !== 'details' ? 'configurable-primary' : 'bg-gray-300'}`}>
+                {step !== 'restaurant' && step !== 'table' && step !== 'details' ? '✓' : '3'}
               </div>
               <span className="ml-2 font-medium">Your Details</span>
             </div>
           </div>
 
-          {step === 'table' && (
+          {step === 'restaurant' && (
+            <>
+              {/* Restaurant Search */}
+              <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+                <div className="max-w-md">
+                  <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
+                    <Search className="w-4 h-4 mr-1 text-green-600" />
+                    Search Restaurants
+                  </label>
+                  <Input
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search by name or cuisine"
+                    data-testid="input-search-reservation-restaurants"
+                  />
+                </div>
+              </div>
+
+              {/* Category Filters */}
+              <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+                <div className="flex items-center mb-4">
+                  <Filter className="w-5 h-5 mr-2 text-green-600" />
+                  <h3 className="font-medium text-gray-900">Filter by Cuisine</h3>
+                </div>
+                <Tabs value={selectedCategory} onValueChange={setSelectedCategory} className="w-full">
+                  <TabsList className="grid w-full grid-cols-3 lg:grid-cols-6">
+                    {categories.map((category) => (
+                      <TabsTrigger
+                        key={category}
+                        value={category}
+                        className="text-sm"
+                        data-testid={`reservation-filter-${category.toLowerCase().replace(/\s+/g, '-')}`}
+                      >
+                        {category}
+                      </TabsTrigger>
+                    ))}
+                  </TabsList>
+                </Tabs>
+                
+                <div className="mt-4 text-sm text-gray-600">
+                  {filteredRestaurants.length} restaurants found
+                  {selectedCategory !== "All" && ` in ${selectedCategory}`}
+                </div>
+              </div>
+
+              {/* Restaurant List */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Available Restaurants</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {isLoadingRestaurants ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                      {[1, 2, 3, 4].map((i) => (
+                        <div key={i} className="animate-pulse">
+                          <div className="h-48 bg-gray-200 rounded-t-lg mb-4"></div>
+                          <div className="p-4">
+                            <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                            <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                      {filteredRestaurants.map((restaurant: Restaurant) => (
+                        <Card 
+                          key={restaurant.id} 
+                          className="cursor-pointer transition-all duration-200 hover:shadow-lg"
+                          onClick={() => handleRestaurantSelect(restaurant)}
+                          data-testid={`reservation-restaurant-card-${restaurant.id}`}
+                        >
+                          <CardContent className="p-0">
+                            <div className="relative">
+                              <img
+                                src={restaurant.image}
+                                alt={restaurant.name}
+                                className="w-full h-48 object-cover rounded-t-lg"
+                              />
+                              <div className="absolute top-3 right-3">
+                                <Badge className="bg-white text-black shadow-sm">
+                                  <Star className="w-3 h-3 mr-1 fill-yellow-400 text-yellow-400" />
+                                  {restaurant.rating}
+                                </Badge>
+                              </div>
+                              <div className="absolute top-3 left-3">
+                                <Badge className="bg-purple-500 text-white">
+                                  Reservation
+                                </Badge>
+                              </div>
+                            </div>
+
+                            <div className="p-4">
+                              <div className="mb-2">
+                                <h3 className="font-semibold text-gray-900 mb-1">
+                                  {restaurant.name}
+                                </h3>
+                                <Badge variant="outline" className="text-xs">
+                                  {restaurant.cuisine}
+                                </Badge>
+                              </div>
+
+                              <div className="space-y-1 text-xs text-gray-600 mb-3">
+                                <div className="flex items-center">
+                                  <Clock className="w-3 h-3 mr-1 text-green-600" />
+                                  Open for reservations
+                                </div>
+                                <div className="flex items-center">
+                                  <MapPin className="w-3 h-3 mr-1 text-green-600" />
+                                  {restaurant.distance} away
+                                </div>
+                              </div>
+
+                              <div className="pt-2 border-t border-gray-100">
+                                <Button 
+                                  size="sm" 
+                                  className="w-full bg-purple-500 text-white hover:bg-purple-600"
+                                  data-testid={`button-reservation-select-${restaurant.id}`}
+                                >
+                                  Book Table
+                                </Button>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  )}
+
+                  {filteredRestaurants.length === 0 && !isLoadingRestaurants && (
+                    <div className="text-center py-8">
+                      <p className="text-gray-500">
+                        No restaurants found matching your search.
+                      </p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </>
+          )}
+
+          {step === 'table' && selectedRestaurant && (
             <>
               {/* Guest Selection */}
               <Card className="mb-6">
@@ -220,10 +399,13 @@ export default function ReservationPage() {
               {/* Available Tables */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Available Tables</CardTitle>
+                  <CardTitle>Available Tables at {selectedRestaurant.name}</CardTitle>
+                  <p className="text-sm text-gray-600">
+                    {selectedRestaurant.cuisine} • {selectedRestaurant.rating} ⭐
+                  </p>
                 </CardHeader>
                 <CardContent>
-                  {isLoading ? (
+                  {isLoadingTables ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                       {[1, 2, 3].map((i) => (
                         <div key={i} className="animate-pulse">
@@ -268,7 +450,7 @@ export default function ReservationPage() {
                     </div>
                   )}
 
-                  {(tables as Table[])?.filter((table: Table) => table.seats >= guests && table.isAvailable).length === 0 && !isLoading && (
+                  {(tables as Table[])?.filter((table: Table) => table.seats >= guests && table.isAvailable).length === 0 && !isLoadingTables && (
                     <div className="text-center py-8">
                       <p className="text-gray-500">
                         No tables available for {guests} guests. Try reducing the number of guests.

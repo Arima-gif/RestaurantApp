@@ -7,6 +7,7 @@ import Navbar from "@/components/navbar";
 import FoodCard from "@/components/food-card";
 import Footer from "@/components/footer";
 import FloatingButtons from "@/components/floating-buttons";
+import ThemeSwitcher from "@/components/theme-switcher";
 import { Order, MenuItem } from "@shared/schema";
 import { useCartStore } from "@/lib/store";
 import AddToCartModal from "@/components/modals/add-to-cart-modal";
@@ -331,6 +332,7 @@ export default function Orders() {
 
       <Footer />
       <FloatingButtons />
+      <ThemeSwitcher />
       
       {/* Modals */}
       <AddToCartModal />
