@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { MapPin, User, Mail, Phone, Clock } from "lucide-react";
+import { MapPin, User, Mail, Phone, Clock, Navigation, Map, Upload } from "lucide-react";
 import { useCartStore } from "@/lib/store";
+import MapPickerModal from "./map-picker-modal";
 
 interface DeliveryDetails {
   customerName: string;
@@ -15,6 +16,8 @@ interface DeliveryDetails {
   apartmentUnit?: string;
   deliveryInstructions?: string;
   preferredTime?: string;
+  latitude?: number;
+  longitude?: number;
 }
 
 export default function DeliveryDetailsModal() {
@@ -33,10 +36,14 @@ export default function DeliveryDetailsModal() {
     deliveryAddress: "",
     apartmentUnit: "",
     deliveryInstructions: "",
-    preferredTime: ""
+    preferredTime: "",
+    latitude: undefined,
+    longitude: undefined
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isLoadingLocation, setIsLoadingLocation] = useState(false);
+  const [showMap, setShowMap] = useState(false);
 
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
@@ -75,6 +82,88 @@ export default function DeliveryDetailsModal() {
 
   const handleBack = () => {
     setDeliveryDetailsModalOpen(false);
+  };
+
+  // Get current location
+  const getCurrentLocation = () => {
+    setIsLoadingLocation(true);
+    
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          
+          try {
+            // Reverse geocoding to get address
+            const response = await fetch(
+              `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw`
+            );
+            const data = await response.json();
+            
+            if (data.features && data.features[0]) {
+              const address = data.features[0].place_name;
+              setDetails({
+                ...details,
+                deliveryAddress: address,
+                latitude: lat,
+                longitude: lng
+              });
+            } else {
+              setDetails({
+                ...details,
+                latitude: lat,
+                longitude: lng
+              });
+            }
+          } catch (error) {
+            console.error('Error getting address:', error);
+            setDetails({
+              ...details,
+              latitude: lat,
+              longitude: lng
+            });
+          }
+          
+          setIsLoadingLocation(false);
+        },
+        (error) => {
+          console.error('Error getting location:', error);
+          setIsLoadingLocation(false);
+          alert('Unable to get your location. Please enter address manually.');
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+      );
+    } else {
+      setIsLoadingLocation(false);
+      alert('Geolocation is not supported by this browser.');
+    }
+  };
+
+  // Handle map location selection
+  const handleMapLocationSelect = () => {
+    setShowMap(true);
+  };
+
+  // Handle location selection from map
+  const handleLocationFromMap = (lat: number, lng: number, address: string) => {
+    setDetails({
+      ...details,
+      deliveryAddress: address,
+      latitude: lat,
+      longitude: lng
+    });
+    setShowMap(false);
+  };
+
+  // Handle file upload for location sharing
+  const handleLocationUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      // For demo purposes, we'll simulate processing a location file
+      // In a real app, you'd parse GPX, KML, or other location formats
+      alert('Location file uploaded successfully. Feature coming soon!');
+    }
   };
 
   return (
@@ -170,13 +259,73 @@ export default function DeliveryDetailsModal() {
             </h3>
 
             <div className="space-y-4">
+              {/* Location Options */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-4">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={getCurrentLocation}
+                  disabled={isLoadingLocation}
+                  className="flex items-center justify-center gap-2"
+                  data-testid="button-current-location"
+                >
+                  <Navigation className="w-4 h-4" />
+                  {isLoadingLocation ? 'Getting...' : 'Current Location'}
+                </Button>
+                
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={handleMapLocationSelect}
+                  className="flex items-center justify-center gap-2"
+                  data-testid="button-map-location"
+                >
+                  <Map className="w-4 h-4" />
+                  Pick on Map
+                </Button>
+                
+                <div className="relative">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="flex items-center justify-center gap-2 w-full"
+                    onClick={() => document.getElementById('location-upload')?.click()}
+                    data-testid="button-upload-location"
+                  >
+                    <Upload className="w-4 h-4" />
+                    Upload Location
+                  </Button>
+                  <input
+                    id="location-upload"
+                    type="file"
+                    accept=".gpx,.kml,.json"
+                    onChange={handleLocationUpload}
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                    data-testid="input-location-upload"
+                  />
+                </div>
+              </div>
+
+              {/* Show coordinates if available */}
+              {details.latitude && details.longitude && (
+                <div className="bg-green-50 p-3 rounded-lg border border-green-200">
+                  <div className="flex items-center text-green-800 text-sm">
+                    <MapPin className="w-4 h-4 mr-2" />
+                    <span>Location set: {details.latitude.toFixed(6)}, {details.longitude.toFixed(6)}</span>
+                  </div>
+                </div>
+              )}
+
               <div>
                 <Label htmlFor="deliveryAddress" className="mb-2.5 block">Street Address *</Label>
                 <Textarea
                   id="deliveryAddress"
                   value={details.deliveryAddress}
                   onChange={(e) => setDetails({ ...details, deliveryAddress: e.target.value })}
-                  placeholder="Enter your full delivery address"
+                  placeholder="Enter your full delivery address or use location options above"
                   className={errors.deliveryAddress ? "border-red-500" : ""}
                   rows={3}
                   data-testid="textarea-delivery-address"
@@ -249,6 +398,15 @@ export default function DeliveryDetailsModal() {
           </p>
         </div>
       </DialogContent>
+      
+      {/* Map Picker Modal */}
+      <MapPickerModal
+        isOpen={showMap}
+        onClose={() => setShowMap(false)}
+        onLocationSelect={handleLocationFromMap}
+        initialLat={details.latitude}
+        initialLng={details.longitude}
+      />
     </Dialog>
   );
 }
