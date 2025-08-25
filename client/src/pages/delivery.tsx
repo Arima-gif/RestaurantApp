@@ -122,7 +122,7 @@ export default function DeliveryPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  <MapPin className="inline w-4 h-4 mr-1" />
+                  <MapPin className="inline w-4 h-4 mr-1 text-green-600" />
                   Delivery Location
                 </label>
                 
@@ -137,7 +137,7 @@ export default function DeliveryPage() {
                     className="flex items-center justify-center gap-2"
                     data-testid="button-current-location-delivery"
                   >
-                    <Navigation className="w-4 h-4" />
+                    <Navigation className="w-4 h-4 text-green-600" />
                     {isLoadingLocation ? 'Getting...' : 'Current Location'}
                   </Button>
                   
@@ -149,7 +149,7 @@ export default function DeliveryPage() {
                     className="flex items-center justify-center gap-2"
                     data-testid="button-map-location-delivery"
                   >
-                    <Map className="w-4 h-4" />
+                    <Map className="w-4 h-4 text-green-600" />
                     Pick on Map
                   </Button>
                 </div>
@@ -173,7 +173,7 @@ export default function DeliveryPage() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  <Search className="inline w-4 h-4 mr-1" />
+                  <Search className="inline w-4 h-4 mr-1 text-green-600" />
                   Search Restaurants
                 </label>
                 <Input
@@ -189,7 +189,7 @@ export default function DeliveryPage() {
           {/* Category Filters */}
           <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
             <div className="flex items-center mb-4">
-              <Filter className="w-5 h-5 mr-2 text-gray-600" />
+              <Filter className="w-5 h-5 mr-2 text-green-600" />
               <h3 className="font-medium text-gray-900">Filter by Cuisine</h3>
             </div>
             <Tabs value={selectedCategory} onValueChange={setSelectedCategory} className="w-full">
@@ -272,15 +272,15 @@ export default function DeliveryPage() {
 
                       <div className="space-y-1 text-xs text-gray-600 mb-3">
                         <div className="flex items-center">
-                          <Clock className="w-3 h-3 mr-1" />
+                          <Clock className="w-3 h-3 mr-1 text-green-600" />
                           {restaurant.deliveryTime}
                         </div>
                         <div className="flex items-center">
-                          <DollarSign className="w-3 h-3 mr-1" />
+                          <DollarSign className="w-3 h-3 mr-1 text-green-600" />
                           Fee: PKR {restaurant.deliveryFee}
                         </div>
                         <div className="flex items-center">
-                          <MapPin className="w-3 h-3 mr-1" />
+                          <MapPin className="w-3 h-3 mr-1 text-green-600" />
                           {restaurant.distance}
                         </div>
                       </div>

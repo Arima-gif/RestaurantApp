@@ -101,15 +101,15 @@ export default function RestaurantMenuPage() {
         return (
           <div className="space-y-2 text-sm text-gray-600">
             <div className="flex items-center">
-              <Clock className="w-4 h-4 mr-2" />
+              <Clock className="w-4 h-4 mr-2 text-green-600" />
               Delivery in {selectedRestaurant.deliveryTime}
             </div>
             <div className="flex items-center">
-              <DollarSign className="w-4 h-4 mr-2" />
+              <DollarSign className="w-4 h-4 mr-2 text-green-600" />
               Delivery Fee: PKR {selectedRestaurant.deliveryFee}
             </div>
             <div className="flex items-center">
-              <MapPin className="w-4 h-4 mr-2" />
+              <MapPin className="w-4 h-4 mr-2 text-green-600" />
               {selectedRestaurant.distance} away
             </div>
           </div>
@@ -118,11 +118,11 @@ export default function RestaurantMenuPage() {
         return (
           <div className="space-y-2 text-sm text-gray-600">
             <div className="flex items-center">
-              <Clock className="w-4 h-4 mr-2" />
+              <Clock className="w-4 h-4 mr-2 text-green-600" />
               Ready for pickup in {selectedRestaurant.deliveryTime.replace('delivery', 'preparation')}
             </div>
             <div className="flex items-start">
-              <MapPin className="w-4 h-4 mr-2 mt-0.5 flex-shrink-0" />
+              <MapPin className="w-4 h-4 mr-2 mt-0.5 flex-shrink-0 text-green-600" />
               <div>
                 <div className="font-medium text-gray-900">Pickup Address:</div>
                 <div className="text-gray-600">{selectedRestaurant.address}</div>

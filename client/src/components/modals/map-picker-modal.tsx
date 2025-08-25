@@ -109,7 +109,7 @@ export default function MapPickerModal({
               {/* Map Placeholder */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center text-gray-500">
-                  <MapPin className="w-12 h-12 mx-auto mb-2 text-gray-400" />
+                  <MapPin className="w-12 h-12 mx-auto mb-2 text-green-400" />
                   <p className="text-lg font-medium">Interactive Map</p>
                   <p className="text-sm">Click anywhere to select location</p>
                 </div>
@@ -123,7 +123,7 @@ export default function MapPickerModal({
                   top: '50%'
                 }}
               >
-                <MapPin className="w-8 h-8 text-red-500 drop-shadow-lg" fill="currentColor" />
+                <MapPin className="w-8 h-8 text-green-500 drop-shadow-lg" fill="currentColor" />
               </div>
               
               {/* Grid overlay for visual reference */}

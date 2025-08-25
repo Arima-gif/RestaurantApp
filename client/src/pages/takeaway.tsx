@@ -165,11 +165,11 @@ export default function TakeawayPage() {
 
                       <div className="space-y-1 text-xs text-gray-600 mb-3">
                         <div className="flex items-center">
-                          <Clock className="w-3 h-3 mr-1" />
+                          <Clock className="w-3 h-3 mr-1 text-green-600" />
                           {restaurant.deliveryTime.replace('delivery', 'preparation')}
                         </div>
                         <div className="flex items-center">
-                          <MapPin className="w-3 h-3 mr-1" />
+                          <MapPin className="w-3 h-3 mr-1 text-green-600" />
                           Pickup available
                         </div>
                       </div>
