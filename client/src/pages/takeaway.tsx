@@ -281,7 +281,7 @@ export default function TakeawayPage() {
                           {restaurant.deliveryTime.replace('delivery', 'preparation')}
                         </div>
                         <div className="flex items-center">
-                          <MapPin className="w-3 h-3 mr-1 text-green-600" />
+                          <MapPin className="w-3 h-3 mr-1 configurable-primary-text" />
                           Pickup available
                         </div>
                       </div>
