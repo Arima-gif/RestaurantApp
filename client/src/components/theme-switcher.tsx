@@ -29,9 +29,9 @@ export default function ThemeSwitcher() {
         <Button
           onClick={() => setIsVisible(true)}
           size="icon"
-          className="configurable-accent text-white shadow-lg hover:configurable-primary-hover"
+          className="configurable-primary text-white shadow-lg configurable-primary-hover"
         >
-          <Palette size={20} />
+          <Palette size={20} className="text-white" />
         </Button>
       ) : (
         <div className="configurable-surface p-4 rounded-lg shadow-lg border configurable-border">
