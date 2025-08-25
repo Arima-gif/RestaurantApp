@@ -106,7 +106,7 @@ export default function TakeawayDetailsModal() {
           {/* Customer Information */}
           <div className="space-y-4">
             <h3 className="font-medium text-black flex items-center">
-              <User className="w-4 h-4 mr-2 text-green-600" />
+              <User className="w-4 h-4 mr-2 configurable-primary-text" />
               Customer Information
             </h3>
 
@@ -163,7 +163,7 @@ export default function TakeawayDetailsModal() {
           {/* Order Preferences */}
           <div className="space-y-4">
             <h3 className="font-medium text-black flex items-center">
-              <Clock className="w-4 h-4 mr-2 text-green-600" />
+              <Clock className="w-4 h-4 mr-2 configurable-primary-text" />
               Pickup Preferences
             </h3>
 

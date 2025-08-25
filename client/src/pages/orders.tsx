@@ -137,7 +137,7 @@ export default function Orders() {
             <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=300&h=200&fit=crop&crop=center" alt="Burger" className="w-1/6 h-full object-cover opacity-80" />
             <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&h=200&fit=crop&crop=center" alt="Salad" className="w-1/6 h-full object-cover opacity-80" />
           </div>
-          <div className="absolute inset-0 bg-gradient-to-r from-green-500/70 to-green-600/70"></div>
+          <div className="absolute inset-0 configurable-primary/70"></div>
         </div>
         
         {/* Table Indicator */}

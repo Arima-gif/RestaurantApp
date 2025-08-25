@@ -102,15 +102,15 @@ export default function RestaurantMenuPage() {
         return (
           <div className="space-y-2 text-sm text-gray-600">
             <div className="flex items-center">
-              <Clock className="w-4 h-4 mr-2 text-green-600" />
+              <Clock className="w-4 h-4 mr-2 configurable-primary-text" />
               Delivery in {selectedRestaurant.deliveryTime}
             </div>
             <div className="flex items-center">
-              <DollarSign className="w-4 h-4 mr-2 text-green-600" />
+              <DollarSign className="w-4 h-4 mr-2 configurable-primary-text" />
               Delivery Fee: PKR {selectedRestaurant.deliveryFee}
             </div>
             <div className="flex items-center">
-              <MapPin className="w-4 h-4 mr-2 text-green-600" />
+              <MapPin className="w-4 h-4 mr-2 configurable-primary-text" />
               {selectedRestaurant.distance} away
             </div>
           </div>
@@ -119,11 +119,11 @@ export default function RestaurantMenuPage() {
         return (
           <div className="space-y-2 text-sm text-gray-600">
             <div className="flex items-center">
-              <Clock className="w-4 h-4 mr-2 text-green-600" />
+              <Clock className="w-4 h-4 mr-2 configurable-primary-text" />
               Ready for pickup in {selectedRestaurant.deliveryTime.replace('delivery', 'preparation')}
             </div>
             <div className="flex items-start">
-              <MapPin className="w-4 h-4 mr-2 mt-0.5 flex-shrink-0 text-green-600" />
+              <MapPin className="w-4 h-4 mr-2 mt-0.5 flex-shrink-0 configurable-primary-text" />
               <div>
                 <div className="font-medium text-gray-900">Pickup Address:</div>
                 <div className="text-gray-600">{selectedRestaurant.address}</div>
@@ -151,7 +151,7 @@ export default function RestaurantMenuPage() {
             <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200" alt="Burger" className="w-1/6 h-full object-cover opacity-80" />
             <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200" alt="Salad" className="w-1/6 h-full object-cover opacity-80" />
           </div>
-          <div className="absolute inset-0 bg-gradient-to-r from-green-500/70 to-green-600/70"></div>
+          <div className="absolute inset-0 configurable-primary/70"></div>
         </div>
         
         {/* Service Type Indicator */}

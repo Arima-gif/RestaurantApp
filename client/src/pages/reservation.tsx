@@ -228,7 +228,7 @@ export default function ReservationPage() {
               <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
                 <div className="max-w-md">
                   <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
-                    <Search className="w-4 h-4 mr-1 text-green-600" />
+                    <Search className="w-4 h-4 mr-1 configurable-primary-text" />
                     Search Restaurants
                   </label>
                   <Input
@@ -243,7 +243,7 @@ export default function ReservationPage() {
               {/* Category Filters */}
               <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
                 <div className="flex items-center mb-4">
-                  <Filter className="w-5 h-5 mr-2 text-green-600" />
+                  <Filter className="w-5 h-5 mr-2 configurable-primary-text" />
                   <h3 className="font-medium text-gray-900">Filter by Cuisine</h3>
                 </div>
                 <Tabs value={selectedCategory} onValueChange={setSelectedCategory} className="w-full">
@@ -326,11 +326,11 @@ export default function ReservationPage() {
 
                               <div className="space-y-1 text-xs text-gray-600 mb-3">
                                 <div className="flex items-center">
-                                  <Clock className="w-3 h-3 mr-1 text-green-600" />
+                                  <Clock className="w-3 h-3 mr-1 configurable-primary-text" />
                                   Open for reservations
                                 </div>
                                 <div className="flex items-center">
-                                  <MapPin className="w-3 h-3 mr-1 text-green-600" />
+                                  <MapPin className="w-3 h-3 mr-1 configurable-primary-text" />
                                   {restaurant.distance} away
                                 </div>
                               </div>

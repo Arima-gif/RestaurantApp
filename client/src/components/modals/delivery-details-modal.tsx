@@ -188,7 +188,7 @@ export default function DeliveryDetailsModal() {
           {/* Customer Information */}
           <div className="space-y-4">
             <h3 className="font-medium text-black flex items-center">
-              <User className="w-4 h-4 mr-2 text-green-600" />
+              <User className="w-4 h-4 mr-2 configurable-primary-text" />
               Customer Information
             </h3>
 
@@ -245,7 +245,7 @@ export default function DeliveryDetailsModal() {
           {/* Delivery Address */}
           <div className="space-y-4">
             <h3 className="font-medium text-black flex items-center">
-              <MapPin className="w-4 h-4 mr-2 text-green-600" />
+              <MapPin className="w-4 h-4 mr-2 configurable-primary-text" />
               Delivery Address
             </h3>
 
@@ -261,7 +261,7 @@ export default function DeliveryDetailsModal() {
                   className="flex items-center justify-center gap-2"
                   data-testid="button-current-location"
                 >
-                  <Navigation className="w-4 h-4 text-green-600" />
+                  <Navigation className="w-4 h-4 configurable-primary-text" />
                   {isLoadingLocation ? 'Getting...' : 'Current Location'}
                 </Button>
                 
@@ -273,16 +273,16 @@ export default function DeliveryDetailsModal() {
                   className="flex items-center justify-center gap-2"
                   data-testid="button-map-location"
                 >
-                  <Map className="w-4 h-4 text-green-600" />
+                  <Map className="w-4 h-4 configurable-primary-text" />
                   Pick on Map
                 </Button>
               </div>
 
               {/* Show coordinates if available */}
               {details.latitude && details.longitude && (
-                <div className="bg-green-50 p-3 rounded-lg border border-green-200">
-                  <div className="flex items-center text-green-800 text-sm">
-                    <MapPin className="w-4 h-4 mr-2 text-green-600" />
+                <div className="configurable-secondary p-3 rounded-lg border configurable-border">
+                  <div className="flex items-center configurable-primary-text text-sm">
+                    <MapPin className="w-4 h-4 mr-2 configurable-primary-text" />
                     <span>Location set: {details.latitude.toFixed(6)}, {details.longitude.toFixed(6)}</span>
                   </div>
                 </div>
