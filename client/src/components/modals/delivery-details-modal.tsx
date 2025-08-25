@@ -161,7 +161,7 @@ export default function DeliveryDetailsModal() {
     <Dialog open={isDeliveryDetailsModalOpen} onOpenChange={setDeliveryDetailsModalOpen}>
       <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader className="border-b border-gray-200 pb-4">
-          <DialogTitle className="text-xl font-bold text-black flex items-center">
+          <DialogTitle className="text-xl font-bold text-black flex items-center justify-center">
             <MapPin className="w-5 h-5 mr-2 configurable-primary-text" />
             Delivery Details
           </DialogTitle>
@@ -187,7 +187,7 @@ export default function DeliveryDetailsModal() {
 
           {/* Customer Information */}
           <div className="space-y-4">
-            <h3 className="font-medium text-black flex items-center">
+            <h3 className="font-medium text-black flex items-center justify-center">
               <User className="w-4 h-4 mr-2 text-green-600" />
               Customer Information
             </h3>
@@ -244,7 +244,7 @@ export default function DeliveryDetailsModal() {
 
           {/* Delivery Address */}
           <div className="space-y-4">
-            <h3 className="font-medium text-black flex items-center">
+            <h3 className="font-medium text-black flex items-center justify-center">
               <MapPin className="w-4 h-4 mr-2 text-green-600" />
               Delivery Address
             </h3>
